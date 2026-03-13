@@ -3,7 +3,7 @@
 Bienvenue sur le dépôt de mon portfolio personnel, accessible à l'adresse suivante :  
 🔗 [**alexandre-tc.github.io/portfolio**](https://alexandre-tc.github.io/portfolio)
 
-<img src="/doc/frame.png" alt="Aperçu du portfolio" width="600"/>
+<img src="/doc/frame.png" alt="Aperçu du portfolio" width="200"/>
 
 ## À propos
 
