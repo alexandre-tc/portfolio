@@ -145,6 +145,7 @@
 }
 
 .passion-title {
+    font-family: var(--font-display);
     font-size: 1.5rem;
     color: var(--text-dark);
     margin-bottom: 1rem;
@@ -289,6 +290,7 @@
 }
 
 .popup-title {
+    font-family: var(--font-display);
     font-size: 2rem;
     color: var(--text-dark);
     margin: 0;

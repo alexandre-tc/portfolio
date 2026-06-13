@@ -1,12 +1,3 @@
-window.addEventListener('scroll', function() {
-  const header = document.querySelector('header');
-  if (window.scrollY > 100) {
-      header.classList.add('scrolled');
-  } else {
-      header.classList.remove('scrolled');
-  }
-});
-
 // ---------------------------
 // Config (remplace par tes valeurs)
 // ---------------------------
@@ -191,6 +182,9 @@ function createParticles() {
   const particlesContainer = $('#particles');
   if (!particlesContainer) return; // si pas de container -> skip
 
+  // Respecter la préférence "réduire les animations"
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
   const particleCount = 50;
   // vider au cas où
   particlesContainer.innerHTML = '';
@@ -240,16 +234,7 @@ document.addEventListener('DOMContentLoaded', function () {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-
-        if (entry.target.classList.contains('skill-card')) {
-          const progressBar = entry.target.querySelector('.skill-progress');
-          if (progressBar) {
-            const width = progressBar.getAttribute('data-width') || '0';
-            setTimeout(() => {
-              progressBar.style.width = width + '%';
-            }, 500);
-          }
-        }
+        observer.unobserve(entry.target);
       }
     });
   }, observerOptions);
@@ -257,7 +242,36 @@ document.addEventListener('DOMContentLoaded', function () {
   const elementsToAnimate = $$('.section-title, .about-text, .about-image, .skill-card, .project-card, .contact-item, .contact-form, .passion-card, .cv-container');
   elementsToAnimate.forEach(el => observer.observe(el));
 
-  // nav links smooth scroll (safe)
+  // --- Navigation : menu mobile (burger) ---
+  const headerEl = $('header');
+  const navToggle = $('#navToggle');
+  const navMenu = $('#navMenu');
+  const headerOffset = () => (headerEl ? headerEl.offsetHeight : 0) + 24;
+
+  const closeMobileNav = () => {
+    if (!navMenu || !navToggle) return;
+    navMenu.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.setAttribute('aria-label', 'Ouvrir le menu');
+  };
+
+  if (navToggle && navMenu) {
+    navToggle.addEventListener('click', () => {
+      const isOpen = navMenu.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', String(isOpen));
+      navToggle.setAttribute('aria-label', isOpen ? 'Fermer le menu' : 'Ouvrir le menu');
+    });
+    document.addEventListener('click', (e) => {
+      if (navMenu.classList.contains('open') && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+        closeMobileNav();
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMobileNav();
+    });
+  }
+
+  // Défilement doux des liens d'ancre (décalage pour le header fixe) + fermeture du menu mobile
   $$('.nav-menu a').forEach(link => {
     link.addEventListener('click', function (e) {
       const href = this.getAttribute('href');
@@ -265,18 +279,40 @@ document.addEventListener('DOMContentLoaded', function () {
       const targetSection = document.querySelector(href);
       if (!targetSection) return;
       e.preventDefault();
-      window.scrollTo({ top: targetSection.offsetTop - 100, behavior: 'smooth' });
+      const top = targetSection.getBoundingClientRect().top + window.pageYOffset - headerOffset();
+      window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
+      closeMobileNav();
     });
   });
 
-  // CTA button -> #projects (vérifié)
-  const ctaButton = $('.cta-button');
-  if (ctaButton) {
-    ctaButton.addEventListener('click', function (e) {
+  // Scroll-spy : surligne le lien de la section actuellement visible
+  const navLinks = $$('.nav-menu a');
+  const spySections = navLinks
+    .map(a => document.querySelector(a.getAttribute('href')))
+    .filter(Boolean);
+  if (spySections.length) {
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+    spySections.forEach(s => spy.observe(s));
+  }
+
+  // CTA "Voir mes projets" -> amène directement sur les cartes de projets (et non sur le titre)
+  const heroCta = document.querySelector('.hero .cta-button');
+  if (heroCta) {
+    heroCta.addEventListener('click', function (e) {
       e.preventDefault();
-      const targetSection = document.querySelector('#projects') || document.querySelector('#projets');
-      if (!targetSection) return;
-      window.scrollTo({ top: targetSection.offsetTop - 100, behavior: 'smooth' });
+      const grid = document.querySelector('#projets .projects-grid') || document.querySelector('#projets');
+      if (!grid) return;
+      const header = document.querySelector('header');
+      const offset = (header ? header.offsetHeight : 0) + 40;
+      const top = grid.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
     });
   }
 
@@ -362,13 +398,25 @@ document.addEventListener('DOMContentLoaded', function() {
   const popupFavorites = document.getElementById('popupFavorites');
   const popupQuote = document.getElementById('popupQuote');
 
-  // Associer chaque carte à sa passion
+  let lastFocusedPassion = null;
+
+  // Associer chaque carte à sa passion (lue depuis data-passion ; repli sur l'index)
   passionCards.forEach((card, index) => {
-      card.dataset.passion = Object.keys(passionsData)[index];
-      
-      card.addEventListener('click', function() {
-          const passion = this.dataset.passion;
-          openPassionPopup(passion);
+      if (!card.dataset.passion) {
+          card.dataset.passion = Object.keys(passionsData)[index];
+      }
+      const open = () => {
+          const passion = card.dataset.passion;
+          if (passion && passionsData[passion]) {
+              openPassionPopup(passion);
+          }
+      };
+      card.addEventListener('click', open);
+      card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              open();
+          }
       });
   });
 
@@ -408,8 +456,10 @@ document.addEventListener('DOMContentLoaded', function() {
       popupQuote.textContent = data.quote;
       
       // Afficher le pop-up
+      lastFocusedPassion = document.activeElement;
       popupOverlay.classList.add('active');
       document.body.style.overflow = 'hidden'; // Empêcher le défilement
+      popupCloseBtn.focus();
   }
 
   // Fermer le pop-up
@@ -430,45 +480,40 @@ document.addEventListener('DOMContentLoaded', function() {
   function closePopup() {
       popupOverlay.classList.remove('active');
       document.body.style.overflow = 'auto'; // Rétablir le défilement
+      if (lastFocusedPassion && typeof lastFocusedPassion.focus === 'function') {
+          lastFocusedPassion.focus();
+      }
   }
-
-  // Animation au survol des cartes
-  passionCards.forEach(card => {
-      card.addEventListener('mouseenter', function() {
-          this.style.transform = 'translateY(-10px)';
-      });
-      
-      card.addEventListener('mouseleave', function() {
-          this.style.transform = 'translateY(0)';
-      });
-  });
 });
 
 // Données pour les projets
 const projectsData = {
-  portfolio: {
-    title: "Mon portfolio",
-    subtitle: "Site web personnel",
-    githubLink: "https://github.com/alexandre-tc/portfolio", // Remplace par ton vrai lien
-    images: [
-        { src: "images/projets/portfolio1.png", alt: "Page d'accueil du portfolio", caption: "Vue d'ensemble du portfolio." },
-        { src: "images/projets/portfolio2.png", alt: "Section projets", caption: "Présentation des projets réalisés." }
+  memory: {
+    title: "Memory",
+    subtitle: "Jeu de mémoire — Application de bureau .NET MAUI",
+    downloads: [
+        { name: "macOS", icon: "fab fa-apple", href: "https://github.com/alexandre-tc/portfolio/releases/download/memory-v1.0/Memory-macOS.zip" },
+        { name: "Windows", icon: "fab fa-windows", href: "https://github.com/alexandre-tc/portfolio/releases/download/memory-v1.0/Memory-Windows.zip" }
     ],
-    description: `Site web personnel comprenant un aperçu de mes compétences, de mes projets et de mes passions.
+    images: [
+        { src: "images/projets/memory-menu.png", alt: "Menu principal de Memory", caption: "Le menu principal et les statistiques de jeu." },
+        { src: "images/projets/memory-partie.png", alt: "Une partie de Memory en cours", caption: "Une partie à deux joueurs en cours." }
+    ],
+    description: `Memory est un jeu de mémoire numérique simple et interactif : retrouvez les paires de cartes le plus rapidement possible et obtenez le meilleur score.
 
-Ce site met en avant mon parcours académique, mes réalisations et mes centres d'intérêt. Il a été conçu pour offrir une vitrine professionnelle de mon travail et de mes compétences techniques.
+L'application propose un mode joueur contre joueur, un mode contre une IA, un classement des meilleurs scores ainsi qu'une page de règles. Plusieurs niveaux de difficulté et thèmes de cartes sont disponibles.
 
-Le développement de ce portfolio m'a permis d'approfondir mes connaissances en développement web front-end et back-end, tout en créant une interface moderne et responsive.`,
+Développée en C# avec .NET MAUI, elle est multiplateforme : une version macOS et une version Windows sont proposées au téléchargement. Projet réalisé en équipe avec Sasha Lorenc et Cristiano Franco-Tith.`,
     technologies: [
-        { name: "HTML", icon: "fab fa-html5" },
-        { name: "CSS", icon: "fab fa-css3-alt" },
-        { name: "PHP", icon: "fab fa-php" },
-        { name: "Responsive Design", icon: "fas fa-mobile-alt" }
+        { name: "C#", icon: "fas fa-hashtag" },
+        { name: ".NET MAUI", icon: "fas fa-layer-group" },
+        { name: "XAML", icon: "fas fa-code" },
+        { name: "Tests unitaires", icon: "fas fa-vial" }
     ],
     skills: [
-        { name: "Développement web", icon: "fas fa-laptop-code" },
-        { name: "Design", icon: "fas fa-palette" },
-        { name: "Hébergement web", icon: "fas fa-server" }
+        { name: "Programmation orientée objet", icon: "fas fa-cubes" },
+        { name: "Conception UML", icon: "fas fa-project-diagram" },
+        { name: "Travail en équipe", icon: "fas fa-users" }
     ]
 },
   gestionStocks: {
@@ -502,18 +547,22 @@ document.addEventListener('DOMContentLoaded', function() {
   const projectPopupOverlay = document.getElementById('projectPopupOverlay');
   const projectPopupCloseBtn = document.getElementById('projectPopupCloseBtn');
   const projectPopupContent = document.getElementById('projectPopupContent');
+  let lastFocusedProject = null;
 
-  // Associer chaque carte à son projet
-  projectCards.forEach((card, index) => {
-      if (index === 0) {
-          card.dataset.project = 'portfolio';
-      } else if (index === 1) {
-          card.dataset.project = 'gestionStocks';
-      }
-      
-      card.addEventListener('click', function() {
-          const project = this.dataset.project;
-          openProjectPopup(project);
+  // Associer chaque carte à son projet (clé lue depuis l'attribut data-project)
+  projectCards.forEach((card) => {
+      const open = () => {
+          const project = card.dataset.project;
+          if (project && projectsData[project]) {
+              openProjectPopup(project);
+          }
+      };
+      card.addEventListener('click', open);
+      card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              open();
+          }
       });
   });
 
@@ -535,7 +584,7 @@ document.addEventListener('DOMContentLoaded', function() {
       data.images.forEach(image => {
           contentHTML += `
               <div class="project-popup-image-container">
-                  <img src="${image.src}" alt="${image.alt}" class="project-popup-image">
+                  <img src="${image.src}" alt="${image.alt}" class="project-popup-image" loading="lazy" decoding="async">
                   <div class="project-popup-caption">${image.caption}</div>
               </div>
           `;
@@ -550,17 +599,17 @@ document.addEventListener('DOMContentLoaded', function() {
           
           <div class="project-popup-technologies">
               <h3 class="project-popup-tech-title">
-                  <i class="fas fa-tools"></i>
+                  <i class="fas fa-tools" aria-hidden="true"></i>
                   Technologies utilisées
               </h3>
               <div class="project-popup-tech-tags">
       `;
-      
+
       // Ajouter les technologies
       data.technologies.forEach(tech => {
           contentHTML += `
               <span class="project-popup-tech-tag">
-                  <i class="${tech.icon}"></i>
+                  <i class="${tech.icon}" aria-hidden="true"></i>
                   ${tech.name}
               </span>
           `;
@@ -572,17 +621,17 @@ document.addEventListener('DOMContentLoaded', function() {
           
           <div class="project-popup-skills">
               <h3 class="project-popup-skills-title">
-                  <i class="fas fa-graduation-cap"></i>
+                  <i class="fas fa-graduation-cap" aria-hidden="true"></i>
                   Compétences acquises
               </h3>
               <div class="project-popup-skills-list">
       `;
-      
+
       // Ajouter les compétences
       data.skills.forEach(skill => {
           contentHTML += `
               <div class="project-popup-skill-item">
-                  <i class="${skill.icon}"></i>
+                  <i class="${skill.icon}" aria-hidden="true"></i>
                   <span>${skill.name}</span>
               </div>
           `;
@@ -592,13 +641,49 @@ document.addEventListener('DOMContentLoaded', function() {
               </div>
           </div>
       `;
-      
+
+      // Actions : téléchargements (mac/windows) ou lien GitHub selon le projet
+      if (Array.isArray(data.downloads) && data.downloads.length) {
+          contentHTML += `
+              <div class="project-popup-actions">
+                  <h3 class="project-popup-actions-title">
+                      <i class="fas fa-download" aria-hidden="true"></i>
+                      Télécharger l'application
+                  </h3>
+                  <div class="project-popup-downloads">
+          `;
+          data.downloads.forEach(dl => {
+              contentHTML += `
+                  <a href="${dl.href}" class="download-btn" rel="noopener" aria-label="Télécharger ${data.title} pour ${dl.name}">
+                      <i class="${dl.icon}" aria-hidden="true"></i>
+                      <span>${dl.name}</span>
+                  </a>
+              `;
+          });
+          contentHTML += `
+                  </div>
+              </div>
+          `;
+      } else if (data.githubLink) {
+          contentHTML += `
+              <div class="project-popup-github">
+                  <a href="${data.githubLink}" class="github-link" target="_blank" rel="noopener">
+                      <i class="fab fa-github" aria-hidden="true"></i>
+                      Voir sur GitHub
+                      <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                  </a>
+              </div>
+          `;
+      }
+
       // Injecter le contenu
       projectPopupContent.innerHTML = contentHTML;
       
       // Afficher le pop-up
+      lastFocusedProject = document.activeElement;
       projectPopupOverlay.classList.add('active');
       document.body.style.overflow = 'hidden';
+      projectPopupCloseBtn.focus();
   }
 
   // Fermer le pop-up
@@ -619,6 +704,9 @@ document.addEventListener('DOMContentLoaded', function() {
   function closeProjectPopup() {
       projectPopupOverlay.classList.remove('active');
       document.body.style.overflow = 'auto';
+      if (lastFocusedProject && typeof lastFocusedProject.focus === 'function') {
+          lastFocusedProject.focus();
+      }
   }
 
   // Animation au survol des cartes de projet

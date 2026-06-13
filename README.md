@@ -11,15 +11,18 @@ Ce site a été conçu pour présenter mes projets, compétences et expériences
 
 ## Fonctionnalités
 
-- Interface moderne et responsive
-- Présentation de mes projets avec liens vers les démos et les dépôts GitHub
-- Sections À propos, Compétences, Projets et Contact
-- Design épuré et adapté à toutes les tailles d'écran
+- Interface moderne, responsive et fluide (mise à l'échelle automatique selon l'écran)
+- Présentation de mes projets dans des fenêtres détaillées (galerie, technologies, compétences)
+- Téléchargement de l'application **Memory** (macOS / Windows) via les *GitHub Releases*
+- Sections Accueil, À propos, Compétences, Projets, Passions, CV et Contact
+- Menu adaptatif (burger sur mobile), navigation accessible au clavier et respect de `prefers-reduced-motion`
+- Formulaire de contact fonctionnel (EmailJS)
 
 ## Technologies utilisées
 
-- HTML5 / CSS3 / JavaScript
-- [Framework / bibliothèque si utilisé, ex : React, Vue, etc.]
+- HTML5 / CSS3 / JavaScript (vanilla, sans framework)
+- Polices **Space Grotesk** & **Inter** (Google Fonts), icônes **Font Awesome**
+- **EmailJS** pour le formulaire de contact
 - Hébergement via **GitHub Pages**
 
 ## Installation locale
@@ -29,3 +32,13 @@ Si vous souhaitez exécuter ce projet en local :
 1. Clonez le dépôt :
    ```bash
    git clone https://github.com/alexandre-tc/portfolio.git
+   ```
+
+2. Lancez un petit serveur local depuis le dossier du projet :
+   ```bash
+   cd portfolio
+   python3 -m http.server 8000
+   ```
+
+3. Ouvrez `http://localhost:8000` dans votre navigateur.
+

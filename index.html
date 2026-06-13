@@ -5,10 +5,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Portfolio d'Alexandre Triniol--Crozatier, étudiant en 1ère année de BUT Informatique à la recherche d'une alternance." />
+    <meta name="author" content="Alexandre Triniol--Crozatier">
+    <meta name="theme-color" content="#007AFF">
     <title>Portfolio | Alexandre Triniol--Crozatier</title>
+    <link rel="canonical" href="https://alexandre-tc.github.io/portfolio/">
+
+    <!-- Open Graph / réseaux sociaux -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:title" content="Alexandre Triniol--Crozatier — Portfolio">
+    <meta property="og:description" content="Étudiant en BUT Informatique à Clermont-Ferrand, à la recherche d'une alternance. Découvrez mes projets, compétences et passions.">
+    <meta property="og:url" content="https://alexandre-tc.github.io/portfolio/">
+    <meta property="og:image" content="https://alexandre-tc.github.io/portfolio/doc/frame.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Alexandre Triniol--Crozatier — Portfolio">
+    <meta name="twitter:description" content="Étudiant en BUT Informatique à Clermont-Ferrand, à la recherche d'une alternance.">
+    <meta name="twitter:image" content="https://alexandre-tc.github.io/portfolio/doc/frame.png">
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><path d=%22M20,30 L50,10 L80,30 L80,70 L50,90 L20,70 Z%22 fill=%22%23007AFF%22 stroke=%22%235856D6%22 stroke-width=%222%22/><text x=%2250%22 y=%2265%22 text-anchor=%22middle%22 font-family=%22monospace%22 font-size=%2230%22 fill=%22white%22>AT</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Police d'affichage originale pour le header et les titres -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap">
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="passions.css">
     <link rel="stylesheet" href="projets.css">
@@ -16,59 +36,35 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 
-<!-- Popup pour les projets -->
-<div class="project-popup-overlay" id="projectPopupOverlay">
-    <div class="project-popup-container">
-        <button class="project-popup-close-btn" id="projectPopupCloseBtn">
-            <i class="fas fa-times"></i>
-        </button>
-        <div class="project-popup-content" id="projectPopupContent">
-            <!-- Le contenu sera injecté par JavaScript -->
-        </div>
-    </div>
-</div>
-
-<!-- Popup pour les passions -->
-<div class="passion-popup-overlay" id="passionPopupOverlay">
-    <div class="passion-popup-container glass-effect">
-        <button class="popup-close-btn" id="popupCloseBtn">
-            <i class="fas fa-times"></i>
-        </button>
-        <div class="popup-content">
-            <div class="popup-header">
-                <div class="popup-icon" id="popupIcon"></div>
-                <h2 class="popup-title" id="popupTitle"></h2>
-            </div>
-            <div class="popup-body">
-                <div class="popup-main-content" id="popupMainContent"></div>
-                <div class="popup-details" id="popupDetails"></div>
-                <div class="popup-favorites" id="popupFavorites"></div>
-                <div class="popup-quote" id="popupQuote"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <body>
-    <div class="particles" id="particles"></div>
+    <a href="#accueil" class="skip-link">Aller au contenu</a>
+    <div class="particles" id="particles" aria-hidden="true"></div>
 
     <header class="glass-effect">
         <div class="nav-container">
-            <div class="logo">Alexandre Triniol--Crozatier</div>
-            <ul class="nav-menu">
-                <li><a href="#accueil">Accueil</a></li>
-                <li><a href="#apropos">À propos</a></li>
-                <li><a href="#competences">Compétences</a></li>
-                <li><a href="#projets">Projets</a></li>
-                <li><a href="#passions">Passions</a></li>
-                <li><a href="#cv">CV</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+            <a href="#accueil" class="logo">Alexandre Triniol--Crozatier</a>
+            <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu" aria-expanded="false"
+                aria-controls="navMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav aria-label="Navigation principale">
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#accueil">Accueil</a></li>
+                    <li><a href="#apropos">À propos</a></li>
+                    <li><a href="#competences">Compétences</a></li>
+                    <li><a href="#projets">Projets</a></li>
+                    <li><a href="#passions">Passions</a></li>
+                    <li><a href="#cv">CV</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
     <section id="accueil" class="hero">
-        <div class="hero-background">
+        <div class="hero-background" aria-hidden="true">
             <div class="floating-shape shape-1"></div>
             <div class="floating-shape shape-2"></div>
             <div class="floating-shape shape-3"></div>
@@ -80,7 +76,7 @@
                 <p class="hero-subtitle">En recherche d'une alternance</p>
                 <a href="#projets" class="cta-button">
                     <span>Voir mes projets</span>
-                    <i class="fas fa-arrow-right"></i>
+                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
                 </a>
             </div>
         </div>
@@ -104,7 +100,8 @@
                 <div class="about-image glass-effect">
                     <div class="image-frame">
                         <div class="image-container">
-                            <img src="images/photo-face.jpg" alt="Alexandre Triniol--Crozatier" class="profile-img">
+                            <img src="images/photo-face.jpg" alt="Portrait d'Alexandre Triniol--Crozatier"
+                                class="profile-img" loading="lazy" decoding="async" width="500" height="500">
                         </div>
                     </div>
                 </div>
@@ -112,53 +109,42 @@
         </div>
     </section>
 
-    <section id="competences" class="skills" style="padding: 80px 0;">
-        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
-            <h2 class="section-title" style="text-align: center; margin-bottom: 60px; position: relative;">
-                Mes compétences
-            </h2>
-            <div class="skills-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1000px; margin: 0 auto; justify-content: center;">
-    
-                <div class="skill-card glass-effect" style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-radius: 24px; padding: 45px 30px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; min-height: 280px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                    <div class="skill-icon" style="margin-bottom: 25px; position: relative;">
-                        <i class="fas fa-code" style="font-size: 50px; filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2)); transition: all 0.4s ease;"></i>
-                    </div>
-                    <h3 class="skill-title" style="font-size: 1.3rem; font-weight: 600; margin-bottom: 15px; letter-spacing: 0.3px;">Développement web</h3>
-                    <p style="font-size: 0.95rem; line-height: 1.6; font-weight: 300; max-width: 90%;">HTML, CSS et PHP</p>
+    <section id="competences" class="skills">
+        <div class="container">
+            <h2 class="section-title">Mes compétences</h2>
+            <div class="skills-container">
+
+                <div class="skill-card glass-effect">
+                    <div class="skill-icon" aria-hidden="true"><i class="fas fa-code"></i></div>
+                    <h3 class="skill-title">Développement web</h3>
+                    <p class="skill-description">HTML, CSS et PHP</p>
                 </div>
-    
-                <div class="skill-card glass-effect" style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-radius: 24px; padding: 45px 30px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; min-height: 280px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                    <div class="skill-icon" style="margin-bottom: 25px; position: relative;">
-                        <i class="fas fa-database" style="font-size: 50px; filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2)); transition: all 0.4s ease;"></i>
-                    </div>
-                    <h3 class="skill-title" style="font-size: 1.3rem; font-weight: 600; margin-bottom: 15px; letter-spacing: 0.3px;">Base de données</h3>
-                    <p style="font-size: 0.95rem; line-height: 1.6; font-weight: 300; max-width: 90%;">SQL et PL/pgSQL avec PostgreSQL</p>
+
+                <div class="skill-card glass-effect">
+                    <div class="skill-icon" aria-hidden="true"><i class="fas fa-database"></i></div>
+                    <h3 class="skill-title">Base de données</h3>
+                    <p class="skill-description">SQL et PL/pgSQL avec PostgreSQL</p>
                 </div>
-    
-                <div class="skill-card glass-effect" style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-radius: 24px; padding: 45px 30px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; min-height: 280px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                    <div class="skill-icon" style="margin-bottom: 25px; position: relative;">
-                        <i class="fas fa-terminal" style="font-size: 50px; filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2)); transition: all 0.4s ease;"></i>
-                    </div>
-                    <h3 class="skill-title" style="font-size: 1.3rem; font-weight: 600; margin-bottom: 15px; letter-spacing: 0.3px;">Programmation</h3>
-                    <p style="font-size: 0.95rem; line-height: 1.6; font-weight: 300; max-width: 90%;">C, C++, Python et Bash</p>
+
+                <div class="skill-card glass-effect">
+                    <div class="skill-icon" aria-hidden="true"><i class="fas fa-terminal"></i></div>
+                    <h3 class="skill-title">Programmation</h3>
+                    <p class="skill-description">C, C++, Python et Bash</p>
                 </div>
-    
-                <div class="skill-card glass-effect" style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-radius: 24px; padding: 45px 30px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; min-height: 280px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                    <div class="skill-icon" style="margin-bottom: 25px; position: relative;">
-                        <i class="fas fa-server" style="font-size: 50px; filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2)); transition: all 0.4s ease;"></i>
-                    </div>
-                    <h3 class="skill-title" style="font-size: 1.3rem; font-weight: 600; margin-bottom: 15px; letter-spacing: 0.3px;">Administration</h3>
-                    <p style="font-size: 0.95rem; line-height: 1.6; font-weight: 300; max-width: 90%;">Administration de machines Linux et initiation à la gestion d'un réseau d'ordinateurs</p>
+
+                <div class="skill-card glass-effect">
+                    <div class="skill-icon" aria-hidden="true"><i class="fas fa-server"></i></div>
+                    <h3 class="skill-title">Administration</h3>
+                    <p class="skill-description">Administration de machines Linux et initiation à la gestion d'un réseau
+                        d'ordinateurs</p>
                 </div>
-    
-                <div class="skill-card glass-effect" style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-radius: 24px; padding: 45px 30px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; min-height: 280px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                    <div class="skill-icon" style="margin-bottom: 25px; position: relative;">
-                        <i class="fas fa-tools" style="font-size: 50px; filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2)); transition: all 0.4s ease;"></i>
-                    </div>
-                    <h3 class="skill-title" style="font-size: 1.3rem; font-weight: 600; margin-bottom: 15px; letter-spacing: 0.3px;">Outils</h3>
-                    <p style="font-size: 0.95rem; line-height: 1.6; font-weight: 300; max-width: 90%;">Git, SSH et x2go</p>
+
+                <div class="skill-card glass-effect">
+                    <div class="skill-icon" aria-hidden="true"><i class="fas fa-tools"></i></div>
+                    <h3 class="skill-title">Outils</h3>
+                    <p class="skill-description">Git, SSH et x2go</p>
                 </div>
-    
+
             </div>
         </div>
     </section>
@@ -168,30 +154,39 @@
             <h2 class="section-title">Mes projets</h2>
             <div class="projects-grid">
     
-                <div class="project-card glass-effect">
-                    <div class="project-image">
-                        <i class="fas fa-chess-board"></i>
+                <div class="project-card glass-effect" data-project="memory" role="button" tabindex="0"
+                    aria-label="Ouvrir les détails du projet Memory">
+                    <div class="project-image" aria-hidden="true">
+                        <i class="fas fa-brain"></i>
                     </div>
-                    <h3 class="project-title">Mon portfolio</h3>
+                    <h3 class="project-title">Memory</h3>
                     <p class="project-desc">
-                        Site web personnel comprenant un aperçu de mes compétences, 
-                        de mes projets et de mes passions. 
-                        Ce site met en avant mon parcours académique, mes réalisations et mes 
-                        centres d'intérêt.
+                        Jeu de mémoire interactif développé en C# avec .NET MAUI. Retrouvez les paires de
+                        cartes le plus rapidement possible, seul contre l'IA ou à deux, et grimpez dans le
+                        classement.
                     </p>
                     <div class="project-tags">
-                        <span class="tag">HTML</span>
-                        <span class="tag">CSS</span>
-                        <span class="tag">PHP</span>
+                        <span class="tag">C#</span>
+                        <span class="tag">.NET MAUI</span>
+                        <span class="tag">XAML</span>
                     </div>
-                    <a href="https://github.com/alexandre-tc/portfolio1a" class="github-btn" target="_blank">
-                        <i class="fab fa-github"></i>
-                        Voir sur GitHub
-                    </a>
+                    <div class="download-group" onclick="event.stopPropagation()">
+                        <a href="https://github.com/alexandre-tc/portfolio/releases/download/memory-v1.0/Memory-macOS.zip"
+                            class="download-btn" aria-label="Télécharger Memory pour macOS">
+                            <i class="fab fa-apple" aria-hidden="true"></i>
+                            <span>macOS</span>
+                        </a>
+                        <a href="https://github.com/alexandre-tc/portfolio/releases/download/memory-v1.0/Memory-Windows.zip"
+                            class="download-btn" aria-label="Télécharger Memory pour Windows">
+                            <i class="fab fa-windows" aria-hidden="true"></i>
+                            <span>Windows</span>
+                        </a>
+                    </div>
                 </div>
     
-                <div class="project-card glass-effect">
-                    <div class="project-image">
+                <div class="project-card glass-effect" data-project="gestionStocks" role="button" tabindex="0"
+                    aria-label="Ouvrir les détails du projet Gestion de stocks">
+                    <div class="project-image" aria-hidden="true">
                         <i class="fas fa-warehouse"></i>
                     </div>
                     <h3 class="project-title">Application en C - Gestion de stocks</h3>
@@ -203,8 +198,9 @@
                         <span class="tag">Makefile</span>
                         <span class="tag">Doxyfile</span>
                     </div>
-                    <a href="https://github.com/alexandre-tc/saeAlgo" class="github-btn" target="_blank">
-                        <i class="fab fa-github"></i>
+                    <a href="https://github.com/alexandre-tc/saeAlgo" class="github-btn" target="_blank"
+                        rel="noopener" onclick="event.stopPropagation()">
+                        <i class="fab fa-github" aria-hidden="true"></i>
                         Voir sur GitHub
                     </a>
                 </div>
@@ -217,8 +213,9 @@
             <h2 class="section-title">Mes Passions</h2>
             <div class="passions-grid">
 
-                <div class="passion-card glass-effect">
-                    <div class="passion-icon">
+                <div class="passion-card glass-effect" data-passion="musique" role="button" tabindex="0"
+                    aria-label="Ouvrir les détails de la passion Musique">
+                    <div class="passion-icon" aria-hidden="true">
                         <i class="fas fa-music"></i>
                     </div>
                     <h3 class="passion-title">Musique</h3>
@@ -233,8 +230,9 @@
                     </div>
                 </div>
 
-                <div class="passion-card glass-effect">
-                    <div class="passion-icon">
+                <div class="passion-card glass-effect" data-passion="football" role="button" tabindex="0"
+                    aria-label="Ouvrir les détails de la passion Football">
+                    <div class="passion-icon" aria-hidden="true">
                         <i class="fas fa-futbol"></i>
                     </div>
                     <h3 class="passion-title">Football</h3>
@@ -257,7 +255,7 @@
         <div class="container">
             <div class="cv-container glass-effect">
                 <div class="cv-content">
-                    <div class="cv-icon">
+                    <div class="cv-icon" aria-hidden="true">
                         <i class="fas fa-file-download"></i>
                     </div>
                     <h2 class="cv-title">Mon CV</h2>
@@ -275,13 +273,14 @@
                             <span>En recherche d'une alternance</span>
                         </div>
                     </div>
-                    <a href="doc/CV_Alexandre_Triniol_Crozatier.pdf" class="cta-button cv-button" target="_blank">
+                    <a href="doc/CV_Alexandre_Triniol_Crozatier.pdf" class="cta-button cv-button" target="_blank"
+                        rel="noopener">
                         <span>Télécharger mon CV</span>
-                        <i class="fas fa-download"></i>
+                        <i class="fas fa-download" aria-hidden="true"></i>
                     </a>
                     <p class="cv-note">Format PDF - Dernière mise à jour : Janvier 2026</p>
                 </div>
-                <div class="cv-preview">
+                <div class="cv-preview" aria-hidden="true">
                     <div class="cv-image">
                         <i class="fas fa-file-pdf"></i>
                         <div class="cv-file-info">
@@ -300,21 +299,21 @@
             <div class="contact-container">
                 <div class="contact-info">
                     <div class="contact-item glass-effect">
-                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div class="contact-icon" aria-hidden="true"><i class="fas fa-envelope"></i></div>
                         <div>
                             <h3>Email</h3>
                             <p>alexandre.triniol--crozatier@etu.uca.fr</p>
                         </div>
                     </div>
                     <div class="contact-item glass-effect">
-                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <div class="contact-icon" aria-hidden="true"><i class="fas fa-phone"></i></div>
                         <div>
                             <h3>Téléphone</h3>
                             <p>+33 6 71 54 59 41</p>
                         </div>
                     </div>
                     <div class="contact-item glass-effect">
-                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="contact-icon" aria-hidden="true"><i class="fas fa-map-marker-alt"></i></div>
                         <div>
                             <h3>Localisation</h3>
                             <p>Clermont-Ferrand, France</p>
@@ -323,24 +322,28 @@
                 </div>
                 <form class="contact-form glass-effect" id="contact-form">
                     <div class="form-group">
+                        <label class="sr-only" for="user_name">Votre nom</label>
                         <input type="text" class="form-input" id="user_name" name="user_name" placeholder="Votre nom"
-                            required>
+                            autocomplete="name" required>
                     </div>
                     <div class="form-group">
+                        <label class="sr-only" for="user_email">Votre email</label>
                         <input type="email" class="form-input" id="user_email" name="user_email"
-                            placeholder="Votre email" required>
+                            placeholder="Votre email" autocomplete="email" required>
                     </div>
                     <div class="form-group">
+                        <label class="sr-only" for="user_subject">Sujet du message</label>
                         <input type="text" class="form-input" id="user_subject" name="user_subject"
                             placeholder="Sujet du message" required>
                     </div>
                     <div class="form-group">
+                        <label class="sr-only" for="message">Votre message</label>
                         <textarea class="form-textarea" id="message" name="message" placeholder="Votre message"
                             required></textarea>
                     </div>
                     <button type="submit" class="cta-button" id="submit-btn">
                         <span id="submit-text">Envoyer le message</span>
-                        <i class="fas fa-paper-plane" id="submit-icon"></i>
+                        <i class="fas fa-paper-plane" id="submit-icon" aria-hidden="true"></i>
                     </button>
                 </form>
             </div>
@@ -351,13 +354,49 @@
         <div class="container">
             <div class="social-links">
                 <a href="https://www.linkedin.com/in/alexandre-triniol-crozatier-250a09355/" class="social-link"
-                    target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                <a href="https://genius.com/hallexxev1" class="social-link" target="_blank"><i
-                        class="fas fa-music"></i></a>
+                    target="_blank" rel="noopener" aria-label="LinkedIn (nouvel onglet)"><i class="fab fa-linkedin-in"
+                        aria-hidden="true"></i></a>
+                <a href="https://genius.com/hallexxev1" class="social-link" target="_blank" rel="noopener"
+                    aria-label="Genius (nouvel onglet)"><i class="fas fa-music" aria-hidden="true"></i></a>
             </div>
             <p>&copy; 2026. Alexandre Triniol--Crozatier. Tous droits réservés.</p>
         </div>
     </footer>
+
+    <!-- Popup pour les projets -->
+    <div class="project-popup-overlay" id="projectPopupOverlay" role="dialog" aria-modal="true"
+        aria-label="Détails du projet">
+        <div class="project-popup-container">
+            <button class="project-popup-close-btn" id="projectPopupCloseBtn" aria-label="Fermer">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+            <div class="project-popup-content" id="projectPopupContent">
+                <!-- Le contenu sera injecté par JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup pour les passions -->
+    <div class="passion-popup-overlay" id="passionPopupOverlay" role="dialog" aria-modal="true"
+        aria-label="Détails de la passion">
+        <div class="passion-popup-container glass-effect">
+            <button class="popup-close-btn" id="popupCloseBtn" aria-label="Fermer">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+            <div class="popup-content">
+                <div class="popup-header">
+                    <div class="popup-icon" id="popupIcon" aria-hidden="true"></div>
+                    <h2 class="popup-title" id="popupTitle"></h2>
+                </div>
+                <div class="popup-body">
+                    <div class="popup-main-content" id="popupMainContent"></div>
+                    <div class="popup-details" id="popupDetails"></div>
+                    <div class="popup-favorites" id="popupFavorites"></div>
+                    <div class="popup-quote" id="popupQuote"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="index.js"></script>
 </body>
