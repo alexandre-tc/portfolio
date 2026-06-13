@@ -1,0 +1,8 @@
+# macOS
+.DS_Store
+
+# Outils locaux Claude Code (config machine-spécifique)
+.claude/
+
+# Binaires lourds distribués via GitHub Releases (dépassent la limite 100 Mo)
+projets/memory/*.zip
