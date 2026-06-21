@@ -81,7 +81,7 @@ function showNotification(message, type = 'success') {
 // Message affiché tant que la version Windows anonymisée n'est pas publiée
 function showWindowsUnavailable() {
   showNotification(
-    "Cette version Windows n'est pas encore prête car le nom n'a pas encore été retiré. Elle sera disponible prochainement.",
+    "Cette version Windows n'est pas encore prête. Elle sera disponible prochainement.",
     'error'
   );
 }
