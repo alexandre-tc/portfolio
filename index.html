@@ -176,11 +176,12 @@
                             <i class="fab fa-apple" aria-hidden="true"></i>
                             <span>macOS</span>
                         </a>
-                        <a href="https://github.com/alexandre-tc/portfolio/releases/download/memory-v1.0/Memory-Windows.zip"
-                            class="download-btn" aria-label="Télécharger Memory pour Windows">
+                        <button type="button" class="download-btn"
+                            onclick="event.stopPropagation(); showWindowsUnavailable();"
+                            aria-label="Télécharger Memory pour Windows (indisponible)">
                             <i class="fab fa-windows" aria-hidden="true"></i>
                             <span>Windows</span>
-                        </a>
+                        </button>
                     </div>
                 </div>
     
