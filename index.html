@@ -29,9 +29,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap">
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="passions.css">
-    <link rel="stylesheet" href="projets.css">
+    <link rel="stylesheet" href="index.css?v=20260623-4">
+    <link rel="stylesheet" href="passions.css?v=20260623-4">
+    <link rel="stylesheet" href="projets.css?v=20260623-4">
     <!-- EmailJS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
@@ -97,9 +97,11 @@
                         de me cultiver et de découvrir de nouvelles choses.</p>
                 </div>
 
-                <div class="about-image glass-effect">
-                    <div class="image-frame">
-                        <div class="image-container">
+                <div class="about-image">
+                    <div class="photo-stack">
+                        <span class="photo-glow" aria-hidden="true"></span>
+                        <span class="photo-dots" aria-hidden="true"></span>
+                        <div class="photo-card">
                             <img src="images/photo-face.jpg" alt="Portrait d'Alexandre Triniol--Crozatier"
                                 class="profile-img" loading="lazy" decoding="async" width="500" height="500">
                         </div>
@@ -112,39 +114,9 @@
     <section id="competences" class="skills">
         <div class="container">
             <h2 class="section-title">Mes compétences</h2>
-            <div class="skills-container">
-
-                <div class="skill-card glass-effect">
-                    <div class="skill-icon" aria-hidden="true"><i class="fas fa-code"></i></div>
-                    <h3 class="skill-title">Développement web</h3>
-                    <p class="skill-description">HTML, CSS et PHP</p>
-                </div>
-
-                <div class="skill-card glass-effect">
-                    <div class="skill-icon" aria-hidden="true"><i class="fas fa-database"></i></div>
-                    <h3 class="skill-title">Base de données</h3>
-                    <p class="skill-description">SQL et PL/pgSQL avec PostgreSQL</p>
-                </div>
-
-                <div class="skill-card glass-effect">
-                    <div class="skill-icon" aria-hidden="true"><i class="fas fa-terminal"></i></div>
-                    <h3 class="skill-title">Programmation</h3>
-                    <p class="skill-description">C, C++, Python et Bash</p>
-                </div>
-
-                <div class="skill-card glass-effect">
-                    <div class="skill-icon" aria-hidden="true"><i class="fas fa-server"></i></div>
-                    <h3 class="skill-title">Administration</h3>
-                    <p class="skill-description">Administration de machines Linux et initiation à la gestion d'un réseau
-                        d'ordinateurs</p>
-                </div>
-
-                <div class="skill-card glass-effect">
-                    <div class="skill-icon" aria-hidden="true"><i class="fas fa-tools"></i></div>
-                    <h3 class="skill-title">Outils</h3>
-                    <p class="skill-description">Git, SSH et x2go</p>
-                </div>
-
+            <p class="skills-hint">Cliquez sur une compétence pour découvrir le(s) projet(s) associé(s).</p>
+            <div class="skills-container" id="skillsContainer">
+                <!-- Les cartes de compétences sont injectées par JavaScript -->
             </div>
         </div>
     </section>
@@ -274,19 +246,19 @@
                             <span>En recherche d'une alternance</span>
                         </div>
                     </div>
-                    <a href="doc/CV_Alexandre_Triniol_Crozatier.pdf" class="cta-button cv-button" target="_blank"
-                        rel="noopener">
+                    <a href="doc/CV_Alexandre_Triniol-Crozatier_2026.pdf" class="cta-button cv-button"
+                        target="_blank" rel="noopener" download>
                         <span>Télécharger mon CV</span>
                         <i class="fas fa-download" aria-hidden="true"></i>
                     </a>
-                    <p class="cv-note">Format PDF - Dernière mise à jour : Janvier 2026</p>
+                    <p class="cv-note">Format PDF - Dernière mise à jour : Juin 2026</p>
                 </div>
                 <div class="cv-preview" aria-hidden="true">
                     <div class="cv-image">
                         <i class="fas fa-file-pdf"></i>
                         <div class="cv-file-info">
-                            <span class="cv-filename">CV_Alexandre_Triniol_Crozatier.pdf</span>
-                            <span class="cv-filesize">≈ 90 Ko</span>
+                            <span class="cv-filename">CV_Alexandre_Triniol-Crozatier_2026.pdf</span>
+                            <span class="cv-filesize">≈ 130 Ko</span>
                         </div>
                     </div>
                 </div>
@@ -380,26 +352,56 @@
     <!-- Popup pour les passions -->
     <div class="passion-popup-overlay" id="passionPopupOverlay" role="dialog" aria-modal="true"
         aria-label="Détails de la passion">
-        <div class="passion-popup-container glass-effect">
+        <div class="passion-popup-container" id="passionPopupContainer">
             <button class="popup-close-btn" id="popupCloseBtn" aria-label="Fermer">
                 <i class="fas fa-times" aria-hidden="true"></i>
             </button>
-            <div class="popup-content">
-                <div class="popup-header">
-                    <div class="popup-icon" id="popupIcon" aria-hidden="true"></div>
-                    <h2 class="popup-title" id="popupTitle"></h2>
-                </div>
-                <div class="popup-body">
-                    <div class="popup-main-content" id="popupMainContent"></div>
-                    <div class="popup-details" id="popupDetails"></div>
-                    <div class="popup-favorites" id="popupFavorites"></div>
-                    <div class="popup-quote" id="popupQuote"></div>
-                </div>
+            <div class="passion-popup-content" id="passionPopupContent">
+                <!-- Le contenu est injecté par JavaScript -->
             </div>
         </div>
     </div>
 
-    <script src="index.js"></script>
+    <!-- Popup pour les compétences (projets associés) -->
+    <div class="skill-popup-overlay" id="skillPopupOverlay" role="dialog" aria-modal="true"
+        aria-label="Projets associés à la compétence">
+        <div class="skill-popup-container" id="skillPopupContainer">
+            <button class="popup-close-btn" id="skillPopupCloseBtn" aria-label="Fermer">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+            <div class="skill-popup-content" id="skillPopupContent">
+                <!-- Le contenu est injecté par JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Terminal interactif (easter egg / mini-jeu) -->
+    <div class="terminal-popup-overlay" id="terminalPopupOverlay" role="dialog" aria-modal="true"
+        aria-label="Terminal interactif">
+        <div class="terminal-window" id="terminalWindow">
+            <div class="terminal-bar">
+                <span class="terminal-dots" aria-hidden="true">
+                    <span class="t-dot t-red"></span>
+                    <span class="t-dot t-yellow"></span>
+                    <span class="t-dot t-green"></span>
+                </span>
+                <span class="terminal-bar-title">visiteur@portfolio : ~/jeu</span>
+                <button class="terminal-close" id="terminalCloseBtn" aria-label="Fermer le terminal">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="terminal-screen" id="terminalScreen">
+                <div class="terminal-output" id="terminalOutput"></div>
+                <form class="terminal-form" id="terminalForm" autocomplete="off">
+                    <span class="terminal-prompt">visiteur@portfolio:~$</span>
+                    <input type="text" class="terminal-input" id="terminalInput" aria-label="Commande"
+                        spellcheck="false" autocapitalize="off" autocorrect="off">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="index.js?v=20260623-4"></script>
 </body>
 
 </html>

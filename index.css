@@ -115,7 +115,9 @@ body::before {
     left: 100%;
 }
 
-header {
+/* NB : le sélecteur cible header.glass-effect pour l'emporter sur la règle
+   .glass-effect { position: relative } (sinon la barre défile avec la page). */
+header.glass-effect {
     padding: 1rem 0;
     position: fixed;
     width: min(1320px, calc(100% - 2rem));
@@ -502,18 +504,13 @@ section {
 }
 
 .about-image {
-    width: 100%;
-    height: 30rem;
-    border-radius: var(--border-radius);
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
     position: relative;
     opacity: 0;
     transform: translateX(50px);
     transition: var(--transition-slow);
-    background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
 }
 
 .about-image.visible {
@@ -521,125 +518,164 @@ section {
     transform: translateX(0);
 }
 
-/* Nouveau cadre pour l'image */
-.image-frame {
+/* Photo : pile composée (halo + grille de points + carte) */
+.photo-stack {
     position: relative;
-    width: 90%;
-    height: 90%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
+    width: min(100%, 22rem);
+    aspect-ratio: 4 / 5;
 }
 
-.image-container {
+/* Halo dégradé flou derrière la photo (profondeur moderne) */
+.photo-glow {
+    position: absolute;
+    inset: -14% -10%;
+    z-index: 0;
+    border-radius: 40px;
+    background: linear-gradient(135deg, #007AFF 0%, #5856D6 45%, #AF52DE 100%);
+    filter: blur(48px);
+    opacity: 0.34;
+    animation: photoGlow 8s ease-in-out infinite;
+}
+
+/* Petite grille de points décorative (touche graphique discrète) */
+.photo-dots {
+    position: absolute;
+    z-index: 0;
+    right: -1.4rem;
+    bottom: -1.4rem;
+    width: 7rem;
+    height: 7rem;
+    background-image: radial-gradient(rgba(0, 86, 179, 0.45) 1.6px, transparent 1.6px);
+    background-size: 14px 14px;
+    opacity: 0.6;
+    -webkit-mask-image: linear-gradient(135deg, #000, transparent 75%);
+    mask-image: linear-gradient(135deg, #000, transparent 75%);
+}
+
+/* Carte photo avec fin liseré dégradé */
+.photo-card {
+    position: relative;
+    z-index: 1;
     width: 100%;
     height: 100%;
-    border-radius: 24px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.15),
-        0 0 0 2px rgba(255, 255, 255, 0.9),
-        0 0 0 4px rgba(0, 122, 255, 0.2),
-        inset 0 0 20px rgba(0, 0, 0, 0.05);
-    background: white;
-    padding: 20px;
+    padding: 5px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.55));
+    box-shadow:
+        0 30px 60px -22px rgba(0, 86, 179, 0.45),
+        0 10px 28px rgba(0, 0, 0, 0.12);
+    transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+}
+
+.photo-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 28px;
+    padding: 2px;
+    background: linear-gradient(135deg, #007AFF, #5856D6, #AF52DE);
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.9;
+    pointer-events: none;
 }
 
 .profile-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 18px;
+    border-radius: 23px;
     display: block;
-    filter: brightness(1.05) contrast(1.1);
+    filter: brightness(1.03) contrast(1.05);
     transition: var(--transition-medium);
 }
 
-.about-image:hover .profile-img {
-    transform: scale(1.03);
-    filter: brightness(1.1) contrast(1.15);
+.about-image:hover .photo-card {
+    transform: translateY(-8px);
+    box-shadow:
+        0 42px 72px -22px rgba(0, 86, 179, 0.5),
+        0 14px 32px rgba(0, 0, 0, 0.14);
 }
 
-/* Effet de bordure animée pour le cadre */
-.image-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 24px;
-    padding: 2px;
-    background: linear-gradient(45deg, 
-        #007AFF, 
-        #5856D6, 
-        #FF2D55, 
-        #FF9500, 
-        #007AFF);
-    -webkit-mask: 
-        linear-gradient(#fff 0 0) content-box, 
-        linear-gradient(#fff 0 0);
-    mask: 
-        linear-gradient(#fff 0 0) content-box, 
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    z-index: 1;
+.about-image:hover .photo-glow {
     opacity: 0.5;
-    animation: rotate 15s linear infinite;
 }
 
-/* Effet de lumière sur les bordures */
-.image-container::after {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    border-radius: 26px;
-    background: linear-gradient(45deg, 
-        rgba(0, 122, 255, 0.1),
-        rgba(88, 86, 214, 0.1),
-        rgba(255, 45, 85, 0.1),
-        rgba(255, 149, 0, 0.1));
-    z-index: 0;
-    animation: rotate 20s linear infinite;
+@keyframes photoGlow {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translateY(-10px) scale(1.04);
+        opacity: 0.46;
+    }
 }
 
-/* Skills Section avancée (sans barres) */
+/* Skills Section — cartes data-driven, centrées et cliquables */
+.skills-hint {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    margin: -1.5rem auto 3rem;
+    max-width: 40rem;
+}
+
 .skills-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 2rem;
-    max-width: 1100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 1.8rem;
+    max-width: 1120px;
     margin: 0 auto;
 }
 
 .skill-card {
-    padding: 2.5rem 2rem;
+    --skill-color: var(--accent-color);
+    --skill-bg: rgba(0, 86, 179, 0.12);
+    --skill-border: rgba(0, 86, 179, 0.32);
+    flex: 1 1 260px;
+    max-width: 320px;
+    padding: 2.2rem 1.8rem;
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
+    align-items: center;
+    gap: 1.1rem;
+    text-align: center;
     transition: var(--transition-medium);
     opacity: 0;
     transform: translateY(40px);
     position: relative;
     overflow: hidden;
-    text-align: center;
 }
 
 .skill-card::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%);
     z-index: -1;
+}
+
+/* Liseré coloré qui se révèle au survol */
+.skill-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--skill-color), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
 }
 
 .skill-card.visible {
@@ -647,39 +683,551 @@ section {
     transform: translateY(0);
 }
 
-.skill-card:hover {
-    transform: translateY(-20px) scale(1.03);
-    box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.15),
-        0 0 0 1px rgba(255, 255, 255, 0.6);
+.skill-card.is-clickable {
+    cursor: pointer;
+}
+
+.skill-card.is-clickable:hover,
+.skill-card.is-clickable:focus-visible {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow:
+        0 24px 45px rgba(0, 0, 0, 0.14),
+        0 0 0 1px var(--skill-border);
+}
+
+.skill-card.is-clickable:hover::after,
+.skill-card.is-clickable:focus-visible::after {
+    transform: scaleX(1);
 }
 
 .skill-icon {
-    font-size: 3rem;
-    margin-bottom: 0.5rem;
-    color: var(--accent-color);
-    transition: var(--transition-medium);
-    text-shadow: 0 0 20px var(--accent-glow);
+    font-size: 2.3rem;
+    width: 76px;
+    height: 76px;
+    border-radius: 22px;
     display: flex;
+    align-items: center;
     justify-content: center;
+    color: var(--skill-color);
+    background: var(--skill-bg);
+    transition: var(--transition-medium);
 }
 
-.skill-card:hover .skill-icon {
-    transform: scale(1.3) rotate(10deg);
+.skill-card.is-clickable:hover .skill-icon {
+    transform: scale(1.08) rotate(-4deg);
+    color: #fff;
+    background: var(--skill-color);
+    box-shadow: 0 10px 22px var(--skill-border);
 }
 
 .skill-title {
     font-family: var(--font-display);
-    font-size: 1.35rem;
+    font-size: 1.3rem;
     font-weight: 600;
-    text-align: center;
 }
 
-.skill-description {
-    font-size: 1rem;
-    line-height: 1.6;
+.skill-tech {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0;
+    margin: 0;
+}
+
+.skill-tech li {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    border-radius: 50px;
+    color: var(--skill-color);
+    background: var(--skill-bg);
+    border: 1px solid var(--skill-border);
+}
+
+.skill-footer {
+    margin-top: auto;
+    padding-top: 0.4rem;
+}
+
+.skill-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--skill-color);
+    transition: gap 0.25s ease;
+}
+
+.skill-card.is-clickable:hover .skill-link {
+    gap: 0.85rem;
+}
+
+.skill-soon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: rgba(0, 0, 0, 0.035);
+    border: 1px dashed var(--border-color);
+    padding: 0.35rem 0.85rem;
+    border-radius: 50px;
+}
+
+/* ===========================================================
+   Pop-up des compétences (projets associés)
+   =========================================================== */
+.skill-popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 24, 35, 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 1.5rem;
+}
+
+.skill-popup-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.skill-popup-container {
+    --skill-color: var(--accent-color);
+    position: relative;
+    width: 100%;
+    max-width: 620px;
+    max-height: 88vh;
+    overflow-y: auto;
+    background: #ffffff;
+    border-radius: 28px;
+    box-shadow: 0 40px 80px -20px rgba(20, 24, 35, 0.45);
+    transform: translateY(24px) scale(0.97);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease;
+}
+
+.skill-popup-overlay.active .skill-popup-container {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.skill-popup-container .popup-close-btn:hover {
+    background: var(--skill-color);
+    color: #fff;
+}
+
+.sp-hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1.3rem;
+    padding: 2.4rem 2.4rem 2rem;
+    border-radius: 28px 28px 0 0;
+    background: linear-gradient(135deg, var(--skill-color), var(--skill-color-dark, #004085));
+    color: #fff;
+    overflow: hidden;
+}
+
+.sp-hero::after {
+    content: '';
+    position: absolute;
+    top: -45%;
+    right: -8%;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    pointer-events: none;
+}
+
+.sp-hero-icon {
+    flex-shrink: 0;
+    width: 68px;
+    height: 68px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.9rem;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    z-index: 1;
+}
+
+.sp-hero-text {
+    z-index: 1;
+}
+
+.sp-title {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin: 0;
+    color: #fff;
+}
+
+.sp-subtitle {
+    margin: 0.35rem 0 0;
+    font-size: 0.98rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.sp-tech-recap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 1.6rem 2.4rem 0;
+}
+
+.sp-tech {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    border-radius: 50px;
+    color: var(--skill-color);
+    background: var(--skill-bg);
+    border: 1px solid var(--skill-border);
+}
+
+.sp-projects {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.6rem 2.4rem 2.4rem;
+}
+
+.sp-project {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    width: 100%;
+    text-align: left;
+    padding: 1.1rem 1.2rem;
+    border-radius: 18px;
+    background: #F7FAFC;
+    border: 1px solid #EDF2F7;
+    cursor: pointer;
+    font-family: var(--font-body);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.sp-project:hover,
+.sp-project:focus-visible {
+    transform: translateY(-3px);
+    background: #fff;
+    border-color: var(--skill-color);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
+}
+
+.sp-project-icon {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--skill-color);
+    background: var(--skill-bg);
+}
+
+.sp-project-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.sp-project-title {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.sp-project-sub {
+    font-size: 0.85rem;
     color: var(--text-secondary);
-    margin-top: 0;
+}
+
+.sp-project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.15rem;
+}
+
+.sp-tag {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 50px;
+    color: var(--text-secondary);
+    background: rgba(0, 0, 0, 0.045);
+}
+
+.sp-project-go {
+    flex-shrink: 0;
+    color: var(--skill-color);
+    font-size: 1rem;
+    transition: transform 0.25s ease;
+}
+
+.sp-project:hover .sp-project-go {
+    transform: translateX(4px);
+}
+
+@media (max-width: 768px) {
+    .skill-popup-container {
+        max-height: 92vh;
+        border-radius: 22px;
+    }
+
+    .sp-hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+        padding: 2.2rem 1.5rem 1.7rem;
+        border-radius: 22px 22px 0 0;
+    }
+
+    .sp-tech-recap {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        justify-content: center;
+    }
+
+    .sp-projects {
+        padding: 1.4rem 1.5rem 2rem;
+    }
+
+    .sp-project {
+        flex-wrap: wrap;
+    }
+}
+
+/* ===========================================================
+   Bouton de lancement du terminal (dans la pop-up projet)
+   =========================================================== */
+.project-popup-terminal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1.6rem;
+    padding-top: 1.6rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.terminal-launch-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.85rem 1.6rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'SF Mono', 'Fira Code', Menlo, Consolas, monospace;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #e6f1ff;
+    background: linear-gradient(135deg, #1e1e2e, #2d2d44);
+    box-shadow: 0 10px 24px rgba(20, 24, 35, 0.25);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.terminal-launch-btn::before {
+    content: '$';
+    color: #34C759;
+    font-weight: 700;
+}
+
+.terminal-launch-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 32px rgba(20, 24, 35, 0.35);
+}
+
+.terminal-launch-hint {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+/* ===========================================================
+   Terminal interactif (easter egg / mini-jeu)
+   =========================================================== */
+.terminal-popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 12, 20, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2100; /* au-dessus de la pop-up projet (z-index 2000) */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 1.5rem;
+}
+
+.terminal-popup-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.terminal-window {
+    width: 100%;
+    max-width: 760px;
+    height: min(70vh, 560px);
+    display: flex;
+    flex-direction: column;
+    background: #14141f;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 40px 90px -20px rgba(0, 0, 0, 0.7);
+    transform: translateY(20px) scale(0.98);
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.35s ease;
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', Menlo, Consolas, monospace;
+}
+
+.terminal-popup-overlay.active .terminal-window {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.7rem 1rem;
+    background: #1f1f2e;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.terminal-dots {
+    display: inline-flex;
+    gap: 0.45rem;
+}
+
+.t-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.t-red { background: #ff5f57; }
+.t-yellow { background: #febc2e; }
+.t-green { background: #28c840; }
+
+.terminal-bar-title {
+    flex: 1;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #8b8ba7;
+    letter-spacing: 0.3px;
+}
+
+.terminal-close {
+    background: transparent;
+    border: none;
+    color: #8b8ba7;
+    cursor: pointer;
+    font-size: 0.95rem;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.terminal-close:hover {
+    background: rgba(255, 95, 87, 0.2);
+    color: #ff5f57;
+}
+
+.terminal-screen {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.1rem 1.2rem 1.3rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #d4d4e0;
+    cursor: text;
+}
+
+.term-line {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.term-cmd {
+    color: #f5f5fa;
+    margin-top: 0.2rem;
+}
+
+.term-cmd-prompt {
+    color: #28c840;
+}
+
+.term-ok { color: #45e06a; font-weight: 600; }
+.term-err { color: #ff6b6b; }
+.term-hint { color: #9b8cff; }
+.term-accent { color: #ffb454; }
+.term-muted { color: #7a7a90; }
+.term-title { color: #4fc3f7; font-weight: 700; margin-top: 0.3rem; }
+
+.terminal-form {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.35rem;
+}
+
+.terminal-prompt {
+    flex-shrink: 0;
+    color: #28c840;
+}
+
+.terminal-input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #f5f5fa;
+    font-family: inherit;
+    font-size: 0.9rem;
+    caret-color: #28c840;
+}
+
+@media (max-width: 600px) {
+    .terminal-window {
+        height: 78vh;
+        max-width: 100%;
+    }
+
+    .terminal-screen {
+        font-size: 0.82rem;
+    }
 }
 
 /* Projects Section améliorée */
