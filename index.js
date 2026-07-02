@@ -895,7 +895,7 @@ document.addEventListener('DOMContentLoaded', function() {
                       <i class="fas fa-terminal" aria-hidden="true"></i>
                       <span>Ouvrir le terminal interactif</span>
                   </button>
-                  <span class="terminal-launch-hint">Un petit jeu se cache ici 👀</span>
+                  <span class="terminal-launch-hint">Tape  help  pour explorer mon profil 👀</span>
               </div>
           `;
       }
@@ -948,47 +948,46 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 // ===========================================================
-// Easter egg : terminal interactif (mini-jeu) — pop-up dans la page
+// Terminal interactif — pop-up dans la page.
+// Chaque commande révèle une info sur Alexandre (pensé pour les recruteurs).
 // Lancé via le bouton « Ouvrir le terminal » de la pop-up projet,
-// ou en tapant jeu() dans la console du navigateur.
+// ou en tapant openTerminal() dans la console du navigateur.
 // ===========================================================
-(function terminalGame() {
-  const enigmes = [
-    {
-      q: "Je réponds toujours mais ne pose jamais de question, je répète sans jamais comprendre. Dans un terminal, je suis aussi une commande. Que suis-je ?",
-      r: ["echo"],
-      indice: "On m'utilise pour afficher du texte dans un terminal."
-    },
-    {
-      q: "J'ai des touches mais aucune porte, un retour mais jamais de voyage, et de l'espace sans être l'univers. Que suis-je ?",
-      r: ["clavier"],
-      indice: "Tu m'utilises à l'instant même pour taper."
-    },
-    {
-      q: "Petite bête invisible, je me cache dans le code et fais planter tes rêves. On me traque, mais je résiste. Que suis-je ?",
-      r: ["bug"],
-      indice: "Les développeurs passent leurs journées à me chasser."
-    },
-    {
-      q: "Je vole sans ailes, je file sans jambes, on me perd sans jamais me rattraper. Que suis-je ?",
-      r: ["temps", "le temps"],
-      indice: "Une montre essaie de me mesurer."
-    },
-    {
-      q: "Je grandis quand on m'enlève de la matière, je rétrécis quand on m'en ajoute. Que suis-je ?",
-      r: ["trou"],
-      indice: "Une pelle m'agrandit."
-    }
+(function terminalInfo() {
+  // Coordonnées & infos centralisées (faciles à mettre à jour)
+  const infos = {
+    nom: 'Alexandre Triniol--Crozatier',
+    email: 'alexandre.triniol--crozatier@etu.uca.fr',
+    tel: '+33 6 71 54 59 41',
+    telHref: 'tel:+33671545941',
+    localisation: 'Clermont-Ferrand, France',
+    linkedin: 'https://www.linkedin.com/in/alexandre-triniol-crozatier-250a09355/',
+    github: 'https://github.com/alexandre-tc',
+    cv: 'doc/CV_Alexandre_Triniol-Crozatier_2026.pdf'
+  };
+
+  // Une ligne d'affichage : { text, cls, href? }
+  const line = (text, cls, href) => ({ text, cls: cls || '', href });
+
+  // Liste des commandes pour help + détection des inconnues
+  const commandes = [
+    ['whoami', 'qui je suis en une phrase'],
+    ['formation', 'mon parcours d\'études'],
+    ['competences', 'mes langages & technologies'],
+    ['projets', 'mes projets réalisés'],
+    ['alternance', 'ce que je recherche (rythme, périodes, domaine)'],
+    ['langues', 'les langues que je parle'],
+    ['mobilite', 'permis, véhicule, zone géographique'],
+    ['passions', 'ce que j\'aime en dehors du code'],
+    ['email', 'mon adresse mail'],
+    ['tel', 'mon numéro de téléphone'],
+    ['linkedin', 'mon profil LinkedIn'],
+    ['github', 'mon GitHub'],
+    ['cv', 'télécharger mon CV (PDF)'],
+    ['contact', 'toutes mes coordonnées d\'un coup'],
+    ['clear', 'nettoie l\'écran'],
+    ['exit', 'ferme le terminal']
   ];
-
-  let current = null;
-
-  const norm = s => String(s).toLowerCase().trim()
-    .normalize('NFD').replace(/[̀-ͯ]/g, '')
-    .replace(/^(l'|le |la |les |un |une )\s*/, '').trim();
-
-  const pick = () => { current = enigmes[Math.floor(Math.random() * enigmes.length)]; };
-  const line = (text, cls) => ({ text, cls: cls || '' });
 
   // Moteur de commandes : renvoie { lines, clear?, close? }
   function processCommand(raw) {
@@ -996,82 +995,154 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!trimmed) return { lines: [] };
     const parts = trimmed.split(/\s+/);
     const cmd = parts[0].toLowerCase();
-    const rest = trimmed.slice(parts[0].length).trim();
 
     switch (cmd) {
       case 'help':
+      case 'aide':
+      case 'ls':
+      case '?':
         return { lines: [
-          line('Commandes disponibles :', 'title'),
-          line('  aventure            (re)lance le jeu et tire une énigme au hasard'),
-          line('  ls                  liste les fichiers'),
-          line('  cat enigme.txt      relit l\'énigme en cours'),
-          line('  indice              un coup de pouce'),
-          line('  reponse <réponse>   propose ta réponse'),
-          line('  whoami              qui suis-je ?'),
-          line('  clear               nettoie l\'écran'),
-          line('  exit                ferme le terminal')
+          line('Tape le nom d\'une commande pour découvrir une info sur moi :', 'title'),
+          ...commandes.map(([name, desc]) =>
+            line('  ' + name.padEnd(14) + desc)),
+          line('Astuce : ↑ / ↓ pour revoir tes commandes précédentes.', 'muted')
         ] };
-
-      case 'aventure':
-      case 'jeu':
-      case 'start':
-        pick();
-        return { lines: [
-          line('🗺️  Une énigme apparaît. Résous-la pour déverrouiller le coffre.', 'title'),
-          line('🧩 ' + current.q, 'accent'),
-          line('→ réponds avec :  reponse <ta réponse>     (besoin d\'aide ?  indice)', 'hint')
-        ] };
-
-      case 'ls': {
-        const lines = [line('enigme.txt   indice.txt   coffre.zip 🔒', 'muted')];
-        if (!current) lines.push(line('astuce : tape  aventure  pour commencer', 'hint'));
-        return { lines };
-      }
-
-      case 'cat': {
-        const f = norm(rest);
-        if (f.includes('enigme')) {
-          if (!current) pick();
-          return { lines: [line('🧩 ' + current.q, 'accent'), line('→ reponse <ta réponse>', 'hint')] };
-        }
-        if (f.includes('indice')) return processCommand('indice');
-        if (f.includes('coffre')) return { lines: [line('🔒 coffre.zip est verrouillé. Résous l\'énigme pour l\'ouvrir.', 'err')] };
-        if (!rest) return { lines: [line('cat: précise un fichier (ex: cat enigme.txt)', 'err')] };
-        return { lines: [line('cat: ' + rest + ': fichier introuvable — tape  ls', 'err')] };
-      }
-
-      case 'indice':
-        if (!current) return { lines: [line('lance d\'abord  aventure', 'hint')] };
-        return { lines: [line('💡 ' + current.indice, 'hint')] };
-
-      case 'reponse':
-      case 'repondre':
-      case 'rep':
-        if (!current) return { lines: [line('lance d\'abord  aventure', 'hint')] };
-        if (!rest) return { lines: [line('précise ta réponse : reponse <ta réponse>', 'err')] };
-        if (current.r.map(norm).includes(norm(rest))) {
-          current = null;
-          if (typeof showNotification === 'function') {
-            showNotification('🎉 Énigme résolue ! Bien joué.', 'success');
-          }
-          return { lines: [
-            line('✅ Exact, c\'était « ' + rest + ' » !', 'ok'),
-            line('🔓 coffre.zip déverrouillé.', 'ok'),
-            line('Tu as l\'œil d\'un·e vrai·e dev. Si tu recrutes en alternance, on est faits pour s\'entendre 😉', 'accent'),
-            line('📬 alexandre.triniol--crozatier@etu.uca.fr', 'hint'),
-            line('(tape  aventure  pour une nouvelle énigme)', 'muted')
-          ] };
-        }
-        return { lines: [line('❌ Raté… ce n\'est pas « ' + rest + ' ». Réessaie, ou tape  indice', 'err')] };
 
       case 'whoami':
+      case 'about':
+      case 'moi':
         return { lines: [
-          line('Alexandre Triniol--Crozatier', 'title'),
-          line('Étudiant en BUT Informatique • musique 🎵 & foot ⚽ • en quête d\'une alternance.', 'hint')
+          line(infos.nom, 'title'),
+          line('Étudiant en BUT Informatique à Clermont-Ferrand, en recherche d\'une alternance.'),
+          line('Polyvalent et curieux : autant à l\'aise en dev logiciel qu\'en web ou en bases de données.', 'accent'),
+          line('🎵 musique  •  ⚽ football  •  et beaucoup de code entre les deux.', 'muted')
+        ] };
+
+      case 'formation':
+      case 'etudes':
+      case 'studies':
+        return { lines: [
+          line('Formation', 'title'),
+          line('BUT Informatique — 1ère année'),
+          line('IUT de Clermont-Ferrand (Université Clermont Auvergne)'),
+          line('Objectif : poursuivre le cursus en alternance.', 'hint')
+        ] };
+
+      case 'competences':
+      case 'skills':
+      case 'stack':
+        return { lines: [
+          line('Compétences techniques', 'title'),
+          line('  Programmation     : C, C++, Python, Bash'),
+          line('  Développement web : HTML, CSS, PHP'),
+          line('  Dév. applicatif   : C#, .NET MAUI, XAML'),
+          line('  Bases de données  : SQL, PL/pgSQL, PostgreSQL'),
+          line('  Administration    : Linux, Réseau'),
+          line('  Outils            : Git, SSH, x2go')
+        ] };
+
+      case 'projets':
+      case 'projects':
+        return { lines: [
+          line('Projets', 'title'),
+          line('  Memory            jeu de mémoire — C#, .NET MAUI, XAML'),
+          line('  Gestion de stocks appli en C — fichiers, Makefile, Doxygen'),
+          line('Détails et téléchargements dans la section « Projets » du site.', 'hint')
+        ] };
+
+      case 'alternance':
+      case 'recherche':
+        return { lines: [
+          line('Alternance recherchée', 'title'),
+          line('Statut  : en recherche active d\'une alternance'),
+          line('Domaine : ouvert et polyvalent (dev logiciel, web, bases de données…)'),
+          line('Périodes en entreprise : mi-novembre → mi-janvier, puis avril → mi-juin'),
+          line('(les dates exactes suivent le calendrier du BUT)', 'muted'),
+          line('Un profil qui vous intéresse ? → tape  contact', 'accent')
+        ] };
+
+      case 'langues':
+      case 'languages':
+        return { lines: [
+          line('Langues', 'title'),
+          line('  Français : langue maternelle'),
+          line('  Anglais  : courant (B2/C1), à l\'aise à l\'écrit comme à l\'oral')
+        ] };
+
+      case 'mobilite':
+      case 'mobilité':
+      case 'permis':
+        return { lines: [
+          line('Mobilité', 'title'),
+          line('Permis B + véhicule personnel'),
+          line('Mobile — prêt à élargir ma zone de recherche autour de Clermont-Ferrand.', 'hint')
+        ] };
+
+      case 'passions':
+      case 'hobbies':
+        return { lines: [
+          line('Passions', 'title'),
+          line('🎵 Musique — écoute, composition et production sur logiciels de MAO'),
+          line('⚽ Football — sport d\'équipe, esprit collectif et partage')
+        ] };
+
+      case 'email':
+      case 'mail':
+        return { lines: [
+          line('Email', 'title'),
+          line(infos.email, 'hint', 'mailto:' + infos.email)
+        ] };
+
+      case 'tel':
+      case 'telephone':
+      case 'téléphone':
+      case 'phone':
+        return { lines: [
+          line('Téléphone', 'title'),
+          line(infos.tel, 'hint', infos.telHref)
+        ] };
+
+      case 'localisation':
+      case 'location':
+      case 'ou':
+      case 'où':
+      case 'where':
+        return { lines: [
+          line('Localisation', 'title'),
+          line(infos.localisation)
+        ] };
+
+      case 'linkedin':
+        return { lines: [
+          line('LinkedIn', 'title'),
+          line('linkedin.com/in/alexandre-triniol-crozatier', 'hint', infos.linkedin)
+        ] };
+
+      case 'github':
+        return { lines: [
+          line('GitHub', 'title'),
+          line('github.com/alexandre-tc', 'hint', infos.github)
+        ] };
+
+      case 'cv':
+        return { lines: [
+          line('CV', 'title'),
+          line('Télécharger mon CV (PDF)', 'hint', infos.cv)
+        ] };
+
+      case 'contact':
+        return { lines: [
+          line('Mes coordonnées', 'title'),
+          line('Email     : ' + infos.email, 'hint', 'mailto:' + infos.email),
+          line('Téléphone : ' + infos.tel, 'hint', infos.telHref),
+          line('Ville     : ' + infos.localisation),
+          line('LinkedIn  : linkedin.com/in/alexandre-triniol-crozatier', 'hint', infos.linkedin),
+          line('GitHub    : github.com/alexandre-tc', 'hint', infos.github),
+          line('N\'hésitez pas à me contacter — je réponds vite 🙂', 'accent')
         ] };
 
       case 'sudo':
-        return { lines: [line('Nice try 😏 — tu n\'as pas les droits root sur ma personnalité.', 'err')] };
+        return { lines: [line('Nice try 😏 — pas besoin des droits root, tout est déjà public ici. Tape  help', 'err')] };
 
       case 'clear':
       case 'cls':
@@ -1082,7 +1153,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return { close: true, lines: [line('À bientôt 👋', 'hint')] };
 
       default:
-        return { lines: [line(cmd + ': commande introuvable — tape  help', 'err')] };
+        return { lines: [line(cmd + ' : commande inconnue — tape  help  pour la liste', 'err')] };
     }
   }
 
@@ -1103,7 +1174,17 @@ document.addEventListener('DOMContentLoaded', function() {
     (lines || []).forEach(l => {
       const div = document.createElement('div');
       div.className = 'term-line' + (l.cls ? ' term-' + l.cls : '');
-      div.textContent = l.text;
+      if (l.href) {
+        const a = document.createElement('a');
+        a.href = l.href;
+        a.className = 'term-link';
+        a.textContent = l.text;
+        if (/^https?:/i.test(l.href)) { a.target = '_blank'; a.rel = 'noopener'; }
+        else if (/\.pdf($|\?)/i.test(l.href)) { a.setAttribute('download', ''); }
+        div.appendChild(a);
+      } else {
+        div.textContent = l.text;
+      }
       output.appendChild(div);
     });
     if (screen) screen.scrollTop = screen.scrollHeight;
@@ -1125,7 +1206,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!output.childElementCount) {
       append([
         line('Bienvenue dans le terminal d\'Alexandre 👋', 'title'),
-        line('tape  help  pour les commandes, ou  aventure  pour lancer le jeu.', 'hint')
+        line('Ici, chaque commande révèle une info sur moi.'),
+        line('tape  help  pour voir tout ce que tu peux demander.', 'hint')
       ]);
     }
     lastFocused = document.activeElement;
@@ -1181,9 +1263,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Exposer pour le bouton de la pop-up projet et pour la console
   window.openTerminal = openTerminal;
-  window.jeu = openTerminal;
+  window.jeu = openTerminal; // alias conservé (compatibilité)
 
   // Clin d'œil discret dans la console du navigateur
-  console.log('%c👋 Curieux·se ? Un terminal interactif se cache dans le projet « Gestion de stocks » (section Projets) — ou tape %cjeu()%c ici.',
+  console.log('%c👋 Curieux·se ? Un terminal interactif se cache dans le projet « Gestion de stocks » (section Projets) — ou tape %copenTerminal()%c ici, puis  help  pour explorer mon profil.',
     'color:#5856D6;font-size:13px;', 'color:#FF9500;font-family:monospace;font-weight:bold;', 'color:#5856D6;font-size:13px;');
 })();

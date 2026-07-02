@@ -1194,6 +1194,18 @@ section {
 .term-accent { color: #ffb454; }
 .term-muted { color: #7a7a90; }
 .term-title { color: #4fc3f7; font-weight: 700; margin-top: 0.3rem; }
+.term-link {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: rgba(155, 140, 255, 0.6);
+    transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+.term-link:hover,
+.term-link:focus-visible {
+    color: #4fc3f7;
+    text-decoration-color: currentColor;
+}
 
 .terminal-form {
     display: flex;
