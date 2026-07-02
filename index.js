@@ -78,14 +78,6 @@ function showNotification(message, type = 'success') {
   }, 5000);
 }
 
-// Message affiché tant que la version Windows anonymisée n'est pas publiée
-function showWindowsUnavailable() {
-  showNotification(
-    "Cette version Windows n'est pas encore prête. Elle sera disponible prochainement.",
-    'error'
-  );
-}
-
 // ---------------------------
 // Validation email (tolérant, accepte '+', sous-domaines, etc.)
 // ---------------------------
@@ -710,7 +702,7 @@ const projectsData = {
     icon: "fas fa-brain",
     downloads: [
         { name: "macOS", icon: "fab fa-apple", href: "https://github.com/alexandre-tc/portfolio/releases/download/memory-v1.0/Memory-macOS.zip" },
-        { name: "Windows", icon: "fab fa-windows", disabled: true }
+        { name: "Windows", icon: "fab fa-windows", href: "https://github.com/alexandre-tc/portfolio/releases/download/memory-v1.0/Memory-Windows.zip" }
     ],
     images: [
         { src: "images/projets/memory-menu.png", alt: "Menu principal de Memory", caption: "Le menu principal et les statistiques de jeu." },
@@ -872,21 +864,12 @@ document.addEventListener('DOMContentLoaded', function() {
                   <div class="project-popup-downloads">
           `;
           data.downloads.forEach(dl => {
-              if (dl.disabled) {
-                  contentHTML += `
-                      <button type="button" class="download-btn" onclick="showWindowsUnavailable()" aria-label="Télécharger ${data.title} pour ${dl.name} (indisponible)">
-                          <i class="${dl.icon}" aria-hidden="true"></i>
-                          <span>${dl.name}</span>
-                      </button>
-                  `;
-              } else {
-                  contentHTML += `
-                      <a href="${dl.href}" class="download-btn" rel="noopener" aria-label="Télécharger ${data.title} pour ${dl.name}">
-                          <i class="${dl.icon}" aria-hidden="true"></i>
-                          <span>${dl.name}</span>
-                      </a>
-                  `;
-              }
+              contentHTML += `
+                  <a href="${dl.href}" class="download-btn" rel="noopener" aria-label="Télécharger ${data.title} pour ${dl.name}">
+                      <i class="${dl.icon}" aria-hidden="true"></i>
+                      <span>${dl.name}</span>
+                  </a>
+              `;
           });
           contentHTML += `
                   </div>
