@@ -690,37 +690,57 @@ section {
     transform: translateX(-50%) translateY(0);
 }
 
+/* À propos — présentation éditoriale (texte fluide, sans encadrés) */
 .about-content {
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 1.4rem;
 }
 
 .about-text {
-    font-size: 1.15rem;
-    line-height: 1.75;
-    opacity: 0;
-    transform: translateX(-50px);
-    transition: var(--transition-slow);
+    margin: 0;
+    font-size: 1.13rem;
+    line-height: 1.85;
     color: var(--text-secondary);
-    padding: 2rem 2.2rem;
-    position: relative;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: var(--transition-slow);
 }
 
-.about-text::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 4px;
-    height: 100%;
-    background: linear-gradient(to bottom, var(--accent-color), #5856D6);
-    border-radius: 2px;
-}
+.about-text:nth-of-type(2) { transition-delay: 0.12s; }
+.about-text:nth-of-type(3) { transition-delay: 0.24s; }
 
 .about-text.visible {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
+}
+
+/* Phrase d'accroche */
+.about-lead {
+    font-family: var(--font-display);
+    font-size: 1.55rem;
+    line-height: 1.5;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.about-lead::after {
+    content: '';
+    display: block;
+    width: 64px;
+    height: 4px;
+    margin-top: 1.1rem;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--accent-color), #5856D6);
+}
+
+/* Mots-clés surlignés en dégradé */
+.about-hl {
+    font-weight: 600;
+    background: linear-gradient(90deg, #007AFF, #5856D6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 .about-image {
@@ -1252,10 +1272,37 @@ section {
     text-align: center;
 }
 
-.about-terminal-tease {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
+.about-terminal-head {
     max-width: 34rem;
+}
+
+.about-terminal-title {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0 0 0.4rem;
+    background: linear-gradient(90deg, #007AFF, #5856D6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.about-terminal-sub {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.about-terminal-sub code {
+    font-family: 'SF Mono', 'Fira Code', Menlo, Consolas, monospace;
+    font-size: 0.9em;
+    font-weight: 600;
+    color: var(--accent-color);
+    background: rgba(0, 86, 179, 0.08);
+    border: 1px solid rgba(0, 86, 179, 0.14);
+    padding: 0.1em 0.45em;
+    border-radius: 6px;
 }
 
 .about-terminal {

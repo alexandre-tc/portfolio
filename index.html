@@ -29,9 +29,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap">
-    <link rel="stylesheet" href="index.css?v=20260623-9">
-    <link rel="stylesheet" href="passions.css?v=20260623-9">
-    <link rel="stylesheet" href="projets.css?v=20260623-9">
+    <link rel="stylesheet" href="index.css?v=20260623-11">
+    <link rel="stylesheet" href="passions.css?v=20260623-11">
+    <link rel="stylesheet" href="projets.css?v=20260623-11">
     <!-- EmailJS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
@@ -115,14 +115,14 @@
             <h2 class="section-title">À propos de moi</h2>
             <div class="about-grid">
                 <div class="about-content">
-                    <p class="about-text glass-effect">Je m'appelle Alexandre Triniol—Crozatier et je suis étudiant en
-                        BUT informatique
+                    <p class="about-text about-lead">Je m'appelle <span class="about-hl">Alexandre
+                            Triniol—Crozatier</span> et je suis étudiant en <span class="about-hl">BUT&nbsp;Informatique</span>
                         à l'IUT de Clermont-Ferrand.</p>
-                    <p class="about-text glass-effect">En dehors de mes études, j'aime faire du sport, mais
-                        aussi écouter et composer de la musique grâce à différents logiciels de création musicale.</p>
-                    <p class="about-text glass-effect">Le sport m'a donné l'occasion de m'ouvrir aux autres, tandis que
-                        la musique me permet de me détendre, et m'a donné l'envie
-                        de me cultiver et de découvrir de nouvelles choses.</p>
+                    <p class="about-text">En dehors de mes études, j'aime faire du <span class="about-hl">sport</span>,
+                        mais aussi écouter et <span class="about-hl">composer de la musique</span> grâce à différents
+                        logiciels de création musicale.</p>
+                    <p class="about-text">Le sport m'a donné l'occasion de m'ouvrir aux autres, tandis que la musique me
+                        permet de me détendre, et m'a donné l'envie de me cultiver et de découvrir de nouvelles choses.</p>
                 </div>
 
                 <div class="about-image">
@@ -138,8 +138,11 @@
             </div>
 
             <div class="about-terminal-wrap">
-                <p class="about-terminal-tease">Envie d'en savoir un peu plus sur moi ? Voici mon terminal
-                    interactif 👇</p>
+                <div class="about-terminal-head">
+                    <h3 class="about-terminal-title">Terminal interactif</h3>
+                    <p class="about-terminal-sub">Tape des commandes pour explorer mon profil — commence par
+                        <code>help</code>.</p>
+                </div>
                 <button type="button" class="about-terminal" id="aboutTerminalBtn"
                     aria-label="Ouvrir le terminal interactif pour en savoir plus sur moi">
                     <span class="about-terminal-topbar" aria-hidden="true">
@@ -447,7 +450,7 @@
         </div>
     </div>
 
-    <script src="index.js?v=20260623-9"></script>
+    <script src="index.js?v=20260623-11"></script>
 </body>
 
 </html>
