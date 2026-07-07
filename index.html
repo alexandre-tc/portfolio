@@ -29,9 +29,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap">
-    <link rel="stylesheet" href="index.css?v=20260623-4">
-    <link rel="stylesheet" href="passions.css?v=20260623-4">
-    <link rel="stylesheet" href="projets.css?v=20260623-4">
+    <link rel="stylesheet" href="index.css?v=20260623-9">
+    <link rel="stylesheet" href="passions.css?v=20260623-9">
+    <link rel="stylesheet" href="projets.css?v=20260623-9">
     <!-- EmailJS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
@@ -65,21 +65,49 @@
 
     <section id="accueil" class="hero">
         <div class="hero-background" aria-hidden="true">
+            <div class="hero-grid"></div>
             <div class="floating-shape shape-1"></div>
             <div class="floating-shape shape-2"></div>
             <div class="floating-shape shape-3"></div>
             <div class="floating-shape shape-4"></div>
+            <div class="hero-glow"></div>
         </div>
         <div class="container">
             <div class="hero-content">
-                <h1 class="hero-title">Étudiant en 1ère année de BUT Informatique</h1>
-                <p class="hero-subtitle">En recherche d'une alternance</p>
-                <a href="#projets" class="cta-button">
-                    <span>Voir mes projets</span>
-                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
-                </a>
+                <span class="hero-badge">
+                    <span class="hero-badge-dot" aria-hidden="true"></span>
+                    En recherche d'une alternance
+                </span>
+                <h1 class="hero-title" aria-label="Étudiant en 1ère année de BUT Informatique">
+                    <span class="hero-word"><span>Étudiant</span></span>
+                    <span class="hero-word"><span>en</span></span>
+                    <span class="hero-word"><span>1ère</span></span>
+                    <span class="hero-word"><span>année</span></span>
+                    <span class="hero-word"><span>de</span></span>
+                    <span class="hero-word"><span>BUT</span></span>
+                    <span class="hero-word"><span>Informatique</span></span>
+                </h1>
+                <p class="hero-typed" aria-hidden="true">
+                    <span class="hero-typed-prefix">Je code en&nbsp;</span>
+                    <span class="hero-typed-text" id="heroTyped"></span>
+                    <span class="hero-caret"></span>
+                </p>
+                <div class="hero-actions">
+                    <a href="#projets" class="cta-button">
+                        <span>Voir mes projets</span>
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                    <a href="#contact" class="hero-ghost-btn">
+                        <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                        <span>Me contacter</span>
+                    </a>
+                </div>
             </div>
         </div>
+        <a href="#apropos" class="hero-scroll" aria-label="Aller à la section À propos">
+            <span class="hero-scroll-mouse" aria-hidden="true"><span></span></span>
+            <span class="hero-scroll-label">Défiler</span>
+        </a>
     </section>
 
     <section id="apropos" class="about">
@@ -107,6 +135,25 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="about-terminal-wrap">
+                <p class="about-terminal-tease">Envie d'en savoir un peu plus sur moi ? Voici mon terminal
+                    interactif 👇</p>
+                <button type="button" class="about-terminal" id="aboutTerminalBtn"
+                    aria-label="Ouvrir le terminal interactif pour en savoir plus sur moi">
+                    <span class="about-terminal-topbar" aria-hidden="true">
+                        <span class="att-dot att-red"></span>
+                        <span class="att-dot att-yellow"></span>
+                        <span class="att-dot att-green"></span>
+                        <span class="att-title">visiteur@portfolio : ~</span>
+                    </span>
+                    <span class="about-terminal-screen">
+                        <span class="att-line"><span class="att-prompt">$</span> whoami</span>
+                        <span class="att-line att-muted">→ clique pour lancer le terminal…</span>
+                        <span class="att-line"><span class="att-prompt">$</span> <span class="att-cursor"></span></span>
+                    </span>
+                </button>
             </div>
         </div>
     </section>
@@ -400,7 +447,7 @@
         </div>
     </div>
 
-    <script src="index.js?v=20260623-4"></script>
+    <script src="index.js?v=20260623-9"></script>
 </body>
 
 </html>

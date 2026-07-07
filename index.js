@@ -581,6 +581,30 @@ const passionsData = {
   },
 };
 
+// Motif SVG thématique affiché dans l'en-tête de la modale de passion
+function passionMotif(passion) {
+  if (passion === 'musique') {
+    const heights = [46, 84, 60, 100, 40, 74, 54, 92, 48, 70, 58, 82, 50, 90];
+    const bars = heights.map((h, i) => {
+      const x = 12 + i * 25;
+      const y = ((140 - h) / 2).toFixed(1);
+      return `<rect class="pm-bar" x="${x}" y="${y}" width="12" height="${h}" rx="6"/>`;
+    }).join('');
+    return `<svg class="pm-motif-svg" viewBox="0 0 360 140" preserveAspectRatio="xMaxYMid slice" aria-hidden="true"><g fill="#fff">${bars}</g></svg>`;
+  }
+  if (passion === 'football') {
+    return `<svg class="pm-motif-svg" viewBox="0 0 360 140" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">`
+      + `<g fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round">`
+      + `<circle cx="255" cy="70" r="46"/>`
+      + `<circle cx="255" cy="70" r="4" fill="#fff" stroke="none"/>`
+      + `<line x1="255" y1="-12" x2="255" y2="152"/>`
+      + `<path d="M360 22 H312 V118 H360"/>`
+      + `<path d="M360 52 H340 V88 H360"/>`
+      + `</g></svg>`;
+  }
+  return '';
+}
+
 // Gestion des pop-ups de passions
 document.addEventListener('DOMContentLoaded', function() {
   const passionCards = document.querySelectorAll('.passion-card');
@@ -634,14 +658,10 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
       `).join('');
 
-      const styleVars = `--passion-color:${data.color};`
-          + `--passion-color-dark:${shadeHex(data.color, -0.4)};`
-          + `--passion-bg:${hexToRgba(data.color, 0.12)};`
-          + `--passion-border:${hexToRgba(data.color, 0.28)}`;
-
       popupContent.innerHTML = `
-          <div class="passion-modal" style="${styleVars}">
+          <div class="passion-modal">
               <header class="pm-hero">
+                  <div class="pm-hero-motif pm-hero-motif--${passion}" aria-hidden="true">${passionMotif(passion)}</div>
                   <span class="pm-hero-icon"><i class="${data.icon}" aria-hidden="true"></i></span>
                   <div class="pm-hero-text">
                       <h2 class="pm-title" id="passionPopupTitle">${data.title}</h2>
@@ -658,8 +678,6 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
       `;
 
-      // Teinte de la pop-up (utilisée notamment par le bouton de fermeture)
-      if (popupContainer) popupContainer.style.setProperty('--passion-color', data.color);
       popupOverlay.setAttribute('aria-labelledby', 'passionPopupTitle');
 
       // Afficher le pop-up
@@ -729,7 +747,6 @@ Développée en C# avec .NET MAUI, elle est multiplateforme : une version macOS 
       title: "Application en C - Gestion de stocks",
       subtitle: "Application en C - Gestion de données",
       icon: "fas fa-warehouse",
-      terminal: true, // affiche le bouton « Ouvrir le terminal interactif » dans la pop-up
       githubLink: "https://github.com/alexandre-tc/saeAlgo",
       images: [
           { src: "images/projets/menu.png", alt: "Menu", caption: "Notre menu." },
@@ -883,19 +900,6 @@ document.addEventListener('DOMContentLoaded', function() {
                       Voir sur GitHub
                       <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
                   </a>
-              </div>
-          `;
-      }
-
-      // Terminal interactif (mini-jeu) pour les projets en ligne de commande
-      if (data.terminal) {
-          contentHTML += `
-              <div class="project-popup-terminal">
-                  <button type="button" class="terminal-launch-btn" onclick="openTerminal()">
-                      <i class="fas fa-terminal" aria-hidden="true"></i>
-                      <span>Ouvrir le terminal interactif</span>
-                  </button>
-                  <span class="terminal-launch-hint">Tape  help  pour explorer mon profil 👀</span>
               </div>
           `;
       }
@@ -1261,11 +1265,69 @@ document.addEventListener('DOMContentLoaded', function() {
     if (e.key === 'Escape' && overlay && overlay.classList.contains('active')) closeTerminal();
   });
 
-  // Exposer pour le bouton de la pop-up projet et pour la console
+  // Bouton de lancement dans la section « À propos »
+  const aboutTerminalBtn = document.getElementById('aboutTerminalBtn');
+  if (aboutTerminalBtn) aboutTerminalBtn.addEventListener('click', openTerminal);
+
+  // Exposer pour le bouton de la section « À propos » et pour la console
   window.openTerminal = openTerminal;
   window.jeu = openTerminal; // alias conservé (compatibilité)
 
   // Clin d'œil discret dans la console du navigateur
-  console.log('%c👋 Curieux·se ? Un terminal interactif se cache dans le projet « Gestion de stocks » (section Projets) — ou tape %copenTerminal()%c ici, puis  help  pour explorer mon profil.',
+  console.log('%c👋 Curieux·se ? Un terminal interactif se cache dans la section « À propos » — ou tape %copenTerminal()%c ici, puis  help  pour explorer mon profil.',
     'color:#5856D6;font-size:13px;', 'color:#FF9500;font-family:monospace;font-weight:bold;', 'color:#5856D6;font-size:13px;');
+})();
+
+// ===========================================================
+// Hero dynamique : machine à écrire + parallaxe pilotée par la souris
+// ===========================================================
+(function heroDynamics() {
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 1) Effet « machine à écrire » sur les technos
+  const typed = document.getElementById('heroTyped');
+  if (typed) {
+    const words = ['C#', '.NET MAUI', 'Python', 'C / C++', 'PHP', 'SQL'];
+    if (reduce) {
+      typed.textContent = words.join(' · ');
+    } else {
+      let w = 0, c = 0, deleting = false;
+      const tick = () => {
+        const word = words[w];
+        c += deleting ? -1 : 1;
+        typed.textContent = word.slice(0, c);
+        let delay = deleting ? 45 : 95;
+        if (!deleting && c === word.length) { deleting = true; delay = 1500; }
+        else if (deleting && c === 0) { deleting = false; w = (w + 1) % words.length; delay = 350; }
+        setTimeout(tick, delay);
+      };
+      setTimeout(tick, 1700);
+    }
+  }
+
+  // 2) Parallaxe douce (souris) : halo + décalage du fond
+  const hero = document.getElementById('accueil');
+  const finePointer = !window.matchMedia || window.matchMedia('(pointer: fine)').matches;
+  if (hero && !reduce && finePointer) {
+    let raf = 0;
+    hero.addEventListener('mousemove', (e) => {
+      const r = hero.getBoundingClientRect();
+      const mx = (e.clientX - r.left) / r.width;
+      const my = (e.clientY - r.top) / r.height;
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        hero.style.setProperty('--mx', (mx * 100).toFixed(1) + '%');
+        hero.style.setProperty('--my', (my * 100).toFixed(1) + '%');
+        hero.style.setProperty('--px', (mx * 2 - 1).toFixed(3));
+        hero.style.setProperty('--py', (my * 2 - 1).toFixed(3));
+        raf = 0;
+      });
+    });
+    hero.addEventListener('mouseleave', () => {
+      hero.style.setProperty('--mx', '50%');
+      hero.style.setProperty('--my', '40%');
+      hero.style.setProperty('--px', '0');
+      hero.style.setProperty('--py', '0');
+    });
+  }
 })();
