@@ -2514,3 +2514,270 @@ button:focus-visible,
         transform: none !important;
     }
 }
+/* ===========================================================
+   Bouton d'aide « ? » + guide d'installation (Windows / macOS)
+   =========================================================== */
+.download-help-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 86, 179, 0.28);
+    background: rgba(0, 86, 179, 0.06);
+    color: var(--accent-color);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.download-help-btn:hover {
+    transform: translateY(-3px);
+    background: var(--accent-color);
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(0, 86, 179, 0.3);
+}
+
+.download-help-btn--wide {
+    width: auto;
+    height: auto;
+    padding: 0.9rem 1.7rem;
+    border-radius: 50px;
+    font-weight: 600;
+}
+
+.install-popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 24, 35, 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2200;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 1.5rem;
+}
+
+.install-popup-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.install-popup-container {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    max-height: 88vh;
+    overflow-y: auto;
+    background: #ffffff;
+    border-radius: 28px;
+    box-shadow: 0 40px 80px -20px rgba(20, 24, 35, 0.45);
+    transform: translateY(24px) scale(0.97);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease;
+}
+
+.install-popup-overlay.active .install-popup-container {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.install-popup-container .popup-close-btn:hover {
+    background: var(--accent-color);
+    color: #fff;
+}
+
+.ig-hero {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 2.4rem 2.4rem 1.9rem;
+    border-radius: 28px 28px 0 0;
+    background: linear-gradient(135deg, #007AFF, #5856D6);
+    color: #fff;
+}
+
+.ig-hero-icon {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.ig-title {
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin: 0;
+    color: #fff;
+}
+
+.ig-subtitle {
+    margin: 0.35rem 0 0;
+    font-size: 0.98rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.ig-tabs {
+    display: flex;
+    gap: 0.6rem;
+    padding: 1.4rem 2.4rem 0;
+}
+
+.ig-tab {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background: #fff;
+    color: var(--text-secondary);
+    font-family: var(--font-display);
+    font-size: 0.98rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.ig-tab:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.ig-tab.active {
+    background: linear-gradient(135deg, #007AFF, #5856D6);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 8px 18px rgba(0, 86, 179, 0.25);
+}
+
+.ig-panel {
+    display: none;
+    padding: 1.7rem 2.4rem 2.4rem;
+}
+
+.ig-panel.active {
+    display: block;
+}
+
+.ig-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.ig-step {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.ig-step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 16px;
+    top: 36px;
+    bottom: -1.2rem;
+    width: 2px;
+    background: linear-gradient(to bottom, rgba(0, 86, 179, 0.3), rgba(88, 86, 214, 0.08));
+}
+
+.ig-step-num {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #007AFF, #5856D6);
+    box-shadow: 0 4px 12px rgba(0, 86, 179, 0.25);
+}
+
+.ig-step-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-top: 0.15rem;
+}
+
+.ig-step-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.ig-step-text {
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.ig-step-note {
+    margin-top: 0.45rem;
+    padding: 0.7rem 0.9rem;
+    border-radius: 12px;
+    background: rgba(0, 86, 179, 0.06);
+    border: 1px solid rgba(0, 86, 179, 0.14);
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--text-secondary);
+}
+
+.ig-step-note i {
+    color: var(--accent-color);
+    margin-right: 0.35rem;
+}
+
+@media (max-width: 600px) {
+    .install-popup-container {
+        max-height: 92vh;
+        border-radius: 22px;
+    }
+
+    .ig-hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+        padding: 2.2rem 1.4rem 1.6rem;
+        border-radius: 22px 22px 0 0;
+    }
+
+    .ig-tabs {
+        padding: 1.2rem 1.4rem 0;
+    }
+
+    .ig-panel {
+        padding: 1.5rem 1.4rem 2rem;
+    }
+}

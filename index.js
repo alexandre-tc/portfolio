@@ -889,6 +889,11 @@ document.addEventListener('DOMContentLoaded', function() {
               `;
           });
           contentHTML += `
+                      <button type="button" class="download-help-btn download-help-btn--wide" onclick="openInstallGuide()"
+                          aria-label="Comment installer l'application ?">
+                          <i class="fas fa-question" aria-hidden="true"></i>
+                          <span>Comment installer ?</span>
+                      </button>
                   </div>
               </div>
           `;
@@ -1146,7 +1151,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ] };
 
       case 'sudo':
-        return { lines: [line('Nice try 😏 — pas besoin des droits root, tout est déjà public ici. Tape  help', 'err')] };
+        return { lines: [line('Nice try 😏. Pas besoin des droits root, tout est déjà public ici. Tape  help', 'err')] };
 
       case 'clear':
       case 'cls':
@@ -1209,7 +1214,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!overlay) return;
     if (!output.childElementCount) {
       append([
-        line('Bienvenue dans le terminal d\'Alexandre 👋', 'title'),
+        line('Bienvenue dans mon terminal.', 'title'),
         line('Ici, chaque commande révèle une info sur moi.'),
         line('tape  help  pour voir tout ce que tu peux demander.', 'hint')
       ]);
@@ -1274,7 +1279,7 @@ document.addEventListener('DOMContentLoaded', function() {
   window.jeu = openTerminal; // alias conservé (compatibilité)
 
   // Clin d'œil discret dans la console du navigateur
-  console.log('%c👋 Curieux·se ? Un terminal interactif se cache dans la section « À propos » — ou tape %copenTerminal()%c ici, puis  help  pour explorer mon profil.',
+  console.log('%cUn terminal interactif se cache dans la section « À propos », ou tape %copenTerminal()%c ici, puis  help  pour explorer mon profil.',
     'color:#5856D6;font-size:13px;', 'color:#FF9500;font-family:monospace;font-weight:bold;', 'color:#5856D6;font-size:13px;');
 })();
 
@@ -1331,3 +1336,128 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 })();
+
+// ===========================================================
+// Guide d'installation de Memory (pop-up ?, tutos Windows + macOS)
+// ===========================================================
+const installGuide = {
+  windows: {
+    label: 'Windows',
+    icon: 'fab fa-windows',
+    steps: [
+      { title: "Télécharge le fichier", text: "Clique sur le bouton « Windows ». Le fichier Memory-Windows.zip se télécharge (tu le retrouves dans le dossier « Téléchargements »)." },
+      { title: "Ouvre le dossier Téléchargements", text: "Ouvre l'Explorateur de fichiers (l'icône dossier jaune dans la barre des tâches en bas), puis clique sur « Téléchargements » dans la colonne de gauche." },
+      { title: "Décompresse le dossier", text: "Fais un clic droit sur Memory-Windows.zip, choisis « Extraire tout… », puis clique sur « Extraire ». Un nouveau dossier s'ouvre avec les fichiers de l'application." },
+      { title: "Lance l'application", text: "Dans ce dossier, repère le fichier nommé « Memory » (type « Application ») et double-clique dessus." },
+      { title: "Autorise l'application", text: "Windows peut afficher un écran bleu « Windows a protégé votre ordinateur ». C'est normal pour une application indépendante, il n'y a aucun risque.", note: "Clique sur « Informations complémentaires », puis sur le bouton « Exécuter quand même »." },
+      { title: "C'est prêt, bon jeu !", text: "Memory se lance. Les prochaines fois, il suffira de rouvrir le dossier extrait et de double-cliquer sur « Memory »." }
+    ]
+  },
+  macos: {
+    label: 'macOS',
+    icon: 'fab fa-apple',
+    steps: [
+      { title: "Télécharge le fichier", text: "Clique sur le bouton « macOS ». Le fichier Memory-macOS.zip se télécharge (tu le vois en haut à droite de Safari, ou dans le dossier « Téléchargements »)." },
+      { title: "Ouvre le dossier Téléchargements", text: "Ouvre le Finder (l'icône sourire bleu dans le Dock), puis clique sur « Téléchargements » dans la colonne de gauche." },
+      { title: "Décompresse le fichier", text: "Double-clique sur Memory-macOS.zip. Une application nommée « Memory » apparaît juste à côté." },
+      { title: "Range l'application (facultatif)", text: "Tu peux glisser « Memory » dans le dossier « Applications » pour la retrouver plus facilement ensuite." },
+      { title: "Ouvre l'app la première fois", text: "Fais un clic droit sur « Memory » (ou maintiens la touche Contrôle et clique), puis choisis « Ouvrir » dans le menu qui apparaît." },
+      { title: "Confirme l'ouverture", text: "macOS affiche un avertissement car l'app vient d'un développeur indépendant. Clique sur « Ouvrir » dans la fenêtre pour confirmer.", note: "Si le bouton « Ouvrir » n'apparaît pas : va dans le menu Pomme () → Réglages Système → Confidentialité et sécurité, descends tout en bas, clique sur « Ouvrir quand même », puis relance Memory." },
+      { title: "C'est prêt, bon jeu !", text: "Memory se lance. Les prochaines fois, un simple double-clic sur l'application suffira." }
+    ]
+  }
+};
+
+function detectOS() {
+  const info = ((navigator.userAgent || '') + ' ' + (navigator.platform || '')).toLowerCase();
+  if (/mac|iphone|ipad|ipod/.test(info)) return 'macos';
+  return 'windows';
+}
+
+function renderInstallGuide(os) {
+  const content = document.getElementById('installPopupContent');
+  if (!content) return;
+  const order = ['windows', 'macos'];
+
+  const tabs = order.map(k =>
+    `<button type="button" class="ig-tab${k === os ? ' active' : ''}" data-os="${k}">
+       <i class="${installGuide[k].icon}" aria-hidden="true"></i> ${installGuide[k].label}
+     </button>`
+  ).join('');
+
+  const panels = order.map(k => {
+    const steps = installGuide[k].steps.map((s, i) => `
+      <li class="ig-step">
+        <span class="ig-step-num">${i + 1}</span>
+        <div class="ig-step-body">
+          <span class="ig-step-title">${s.title}</span>
+          <span class="ig-step-text">${s.text}</span>
+          ${s.note ? `<span class="ig-step-note"><i class="fas fa-lightbulb" aria-hidden="true"></i> ${s.note}</span>` : ''}
+        </div>
+      </li>`).join('');
+    return `<div class="ig-panel${k === os ? ' active' : ''}" data-os="${k}"><ol class="ig-steps">${steps}</ol></div>`;
+  }).join('');
+
+  content.innerHTML = `
+    <div class="install-guide">
+      <header class="ig-hero">
+        <span class="ig-hero-icon"><i class="fas fa-question" aria-hidden="true"></i></span>
+        <div class="ig-hero-text">
+          <h2 class="ig-title" id="installPopupTitle">Installer Memory</h2>
+          <p class="ig-subtitle">Guide pour télécharger mon app !</p>
+        </div>
+      </header>
+      <div class="ig-tabs" role="tablist">${tabs}</div>
+      ${panels}
+    </div>
+  `;
+
+  content.querySelectorAll('.ig-tab').forEach(tab => {
+    tab.addEventListener('click', () => setInstallTab(tab.dataset.os));
+  });
+}
+
+function setInstallTab(os) {
+  const content = document.getElementById('installPopupContent');
+  if (!content) return;
+  content.querySelectorAll('.ig-tab').forEach(t => t.classList.toggle('active', t.dataset.os === os));
+  content.querySelectorAll('.ig-panel').forEach(p => p.classList.toggle('active', p.dataset.os === os));
+  const container = document.getElementById('installPopupContainer');
+  if (container) container.scrollTop = 0;
+}
+
+let lastFocusedInstall = null;
+
+function openInstallGuide(os) {
+  const overlay = document.getElementById('installPopupOverlay');
+  if (!overlay) return;
+  renderInstallGuide(os || detectOS());
+  lastFocusedInstall = document.activeElement;
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  const closeBtn = document.getElementById('installPopupCloseBtn');
+  if (closeBtn) closeBtn.focus();
+}
+
+function closeInstallGuide() {
+  const overlay = document.getElementById('installPopupOverlay');
+  if (!overlay) return;
+  overlay.classList.remove('active');
+  const stillOpen = ['projectPopupOverlay', 'passionPopupOverlay', 'skillPopupOverlay', 'terminalPopupOverlay']
+    .some(id => document.getElementById(id)?.classList.contains('active'));
+  document.body.style.overflow = stillOpen ? 'hidden' : 'auto';
+  if (lastFocusedInstall && typeof lastFocusedInstall.focus === 'function') lastFocusedInstall.focus();
+}
+
+window.openInstallGuide = openInstallGuide;
+
+document.addEventListener('DOMContentLoaded', function () {
+  const overlay = document.getElementById('installPopupOverlay');
+  const closeBtn = document.getElementById('installPopupCloseBtn');
+  if (!overlay) return;
+  if (closeBtn) closeBtn.addEventListener('click', closeInstallGuide);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeInstallGuide(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeInstallGuide();
+  });
+});
