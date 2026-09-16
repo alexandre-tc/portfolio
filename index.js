@@ -347,7 +347,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // init particules si présent
-  createParticles();
 });
 
 // ---------------------------
@@ -377,28 +376,24 @@ function shadeHex(hex, percent) {
 // ---------------------------
 const skillsData = [
   {
-    id: 'web', title: 'Développement web', icon: 'fas fa-code', color: '#007AFF',
-    tech: ['HTML', 'CSS', 'PHP'], projects: []
+    id: 'web', title: 'Développement web', icon: 'fas fa-code', color: '#0056b3',
+    tech: ['HTML', 'CSS', 'PHP', 'ASP.NET', 'Blazor'], projects: ['copro']
   },
   {
-    id: 'bdd', title: 'Base de données', icon: 'fas fa-database', color: '#5856D6',
-    tech: ['SQL', 'PL/pgSQL', 'PostgreSQL'], projects: []
+    id: 'bdd', title: 'Base de données', icon: 'fas fa-database', color: '#0056b3',
+    tech: ['SQL', 'PL/pgSQL', 'PostgreSQL', 'Entity Framework'], projects: ['copro']
   },
   {
-    id: 'prog', title: 'Programmation', icon: 'fas fa-terminal', color: '#FF9500',
-    tech: ['C', 'C++', 'Python', 'Bash'], projects: ['gestionStocks']
+    id: 'prog', title: 'Programmation', icon: 'fas fa-terminal', color: '#0056b3',
+    tech: ['C', 'C++', 'Python', 'Bash', 'Kotlin'], projects: ['copro']
   },
   {
-    id: 'app', title: 'Développement applicatif', icon: 'fas fa-layer-group', color: '#34C759',
+    id: 'app', title: 'Développement applicatif', icon: 'fas fa-layer-group', color: '#0056b3',
     tech: ['C#', '.NET MAUI', 'XAML'], projects: ['memory']
   },
   {
-    id: 'admin', title: 'Administration', icon: 'fas fa-server', color: '#5AC8FA',
-    tech: ['Linux', 'Réseau'], projects: []
-  },
-  {
-    id: 'tools', title: 'Outils', icon: 'fas fa-toolbox', color: '#AF52DE',
-    tech: ['Git', 'SSH', 'x2go'], projects: ['memory', 'gestionStocks']
+    id: 'tools', title: 'Outils', icon: 'fas fa-toolbox', color: '#0056b3',
+    tech: ['Git', 'SSH', 'x2go'], projects: ['copro', 'memory']
   }
 ];
 
@@ -414,8 +409,8 @@ function renderSkills() {
       ? `<span class="skill-link">Voir ${plural ? 'les projets' : 'le projet'}<i class="fas fa-arrow-right" aria-hidden="true"></i></span>`
       : `<span class="skill-soon"><i class="fas fa-hourglass-half" aria-hidden="true"></i> Projet à venir</span>`;
     const a11y = hasProjects
-      ? `role="button" tabindex="0" aria-label="${skill.title} — voir ${plural ? 'les projets associés' : 'le projet associé'}"`
-      : `aria-label="${skill.title} — projet à venir"`;
+      ? `role="button" tabindex="0" aria-label="${skill.title} : voir ${plural ? 'les projets associés' : 'le projet associé'}"`
+      : `aria-label="${skill.title} : projet à venir"`;
 
     return `
       <article class="skill-card glass-effect ${hasProjects ? 'is-clickable' : 'is-coming'}"
@@ -542,68 +537,47 @@ document.addEventListener('DOMContentLoaded', function () {
 const passionsData = {
   musique: {
       title: "Musique",
-      subtitle: "Composition & écoute",
+      subtitle: "Écoute et composition",
       icon: "fas fa-music",
-      color: "#9F7AEA",
-      mainContent: "La musique est plus qu'une passion, c'est une partie intégrante de ma vie. Je passe des heures à explorer différents genres, analyser des compositions et créer mes propres morceaux.",
-      stats: [
-          { icon: "fas fa-sliders", label: "Style préféré", value: "Trap / Reggaeton" },
-          { icon: "fas fa-clock-rotate-left", label: "Expérience", value: "2 ans de composition" },
-          { icon: "fas fa-wave-square", label: "Logiciel", value: "GarageBand" },
-      ],
-      favorites: [
-          { icon: "fas fa-compact-disc", label: "Album", value: "LUX — ROSALÍA" },
-          { icon: "fas fa-user", label: "Artiste", value: "Green Montana" },
-          { icon: "fas fa-guitar", label: "Titre", value: "NEYMAR JR — Green Montana & SDM" },
-          { icon: "fas fa-headphones", label: "Genre", value: "Trap" }
-      ],
-      quote: "La musique donne une âme à nos cœurs et des ailes à la pensée."
+      mainContent: "La musique fait partie de mon quotidien. J'écoute beaucoup de rap, de latino, de RnB et de pop, et je compose mes propres morceaux sur GarageBand. C'est autant une source d'inspiration qu'un moyen de me détendre.",
+      details: [
+          { label: "Genres écoutés", value: "Rap, latino, RnB, pop" },
+          { label: "Composition", value: "GarageBand" },
+          { label: "Pratique", value: "Régulière, en autodidacte" }
+      ]
+  },
+  musculation: {
+      title: "Musculation",
+      subtitle: "Cinq ans de pratique",
+      icon: "fas fa-dumbbell",
+      mainContent: "Je pratique la musculation en salle depuis cinq ans. J'y viens par goût de la rigueur, de la régularité et du dépassement de soi, des valeurs que je retrouve aussi dans mon travail.",
+      details: [
+          { label: "Depuis", value: "5 ans" },
+          { label: "Lieu", value: "En salle" },
+          { label: "Ce que j'y trouve", value: "Rigueur et régularité" }
+      ]
   },
   football: {
       title: "Football",
-      subtitle: "Sur le terrain & devant l'écran",
+      subtitle: "Sur le terrain et devant l'écran",
       icon: "fas fa-futbol",
-      color: "#48BB78",
-      mainContent: "Depuis mon enfance, le football rythme ma vie. Que ce soit en regardant les matchs ou en jouant avec des amis, ce sport m'a enseigné l'esprit d'équipe et la persévérance.",
-      stats: [
-          { icon: "fas fa-shield-halved", label: "Équipe favorite", value: "PSG" },
-          { icon: "fas fa-hand", label: "Poste", value: "Gardien de but" },
-          { icon: "fas fa-calendar-check", label: "Depuis", value: "12 ans" },
-          { icon: "fas fa-futbol", label: "Style de jeu", value: "Relanceur" }
-      ],
-      favorites: [
-          { icon: "fas fa-star", label: "Joueur", value: "Steven Berghuis" },
-          { icon: "fas fa-flag", label: "Compétition", value: "Ligue 1" },
-          { icon: "fas fa-landmark", label: "Stade", value: "Gabriel Montpied" },
-          { icon: "fas fa-trophy", label: "Moment", value: "Finale de la Coupe du monde 2018" }
-      ],
-      quote: "Le football est un sport simple, mais le jouer simplement est la chose la plus difficile."
+      mainContent: "Je suis passionné de football. J'aime suivre les matchs au stade comme à la télévision, et échanger avec d'autres passionnés sur les forums de supporters.",
+      details: [
+          { label: "Suivi", value: "Stade et télévision" },
+          { label: "Communauté", value: "Forums de supporters" }
+      ]
   },
+  rugby: {
+      title: "Rugby",
+      subtitle: "Supporter de l'ASM",
+      icon: "fas fa-football",
+      mainContent: "Supporter de l'ASM Clermont Auvergne, je suis souvent présent au stade Marcel Michelin pour vivre les matchs et leur ambiance.",
+      details: [
+          { label: "Club", value: "ASM Clermont Auvergne" },
+          { label: "Stade", value: "Marcel Michelin" }
+      ]
+  }
 };
-
-// Motif SVG thématique affiché dans l'en-tête de la modale de passion
-function passionMotif(passion) {
-  if (passion === 'musique') {
-    const heights = [46, 84, 60, 100, 40, 74, 54, 92, 48, 70, 58, 82, 50, 90];
-    const bars = heights.map((h, i) => {
-      const x = 12 + i * 25;
-      const y = ((140 - h) / 2).toFixed(1);
-      return `<rect class="pm-bar" x="${x}" y="${y}" width="12" height="${h}" rx="6"/>`;
-    }).join('');
-    return `<svg class="pm-motif-svg" viewBox="0 0 360 140" preserveAspectRatio="xMaxYMid slice" aria-hidden="true"><g fill="#fff">${bars}</g></svg>`;
-  }
-  if (passion === 'football') {
-    return `<svg class="pm-motif-svg" viewBox="0 0 360 140" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">`
-      + `<g fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round">`
-      + `<circle cx="255" cy="70" r="46"/>`
-      + `<circle cx="255" cy="70" r="4" fill="#fff" stroke="none"/>`
-      + `<line x1="255" y1="-12" x2="255" y2="152"/>`
-      + `<path d="M360 22 H312 V118 H360"/>`
-      + `<path d="M360 52 H340 V88 H360"/>`
-      + `</g></svg>`;
-  }
-  return '';
-}
 
 // Gestion des pop-ups de passions
 document.addEventListener('DOMContentLoaded', function() {
@@ -640,41 +614,20 @@ document.addEventListener('DOMContentLoaded', function() {
       const data = passionsData[passion];
       if (!data) return;
 
-      const statsHTML = data.stats.map(s => `
-          <div class="pm-stat">
-              <i class="${s.icon}" aria-hidden="true"></i>
-              <div class="pm-stat-text">
-                  <span class="pm-stat-label">${s.label}</span>
-                  <span class="pm-stat-value">${s.value}</span>
-              </div>
-          </div>
-      `).join('');
-
-      const favoritesHTML = data.favorites.map(f => `
-          <div class="pm-fav">
-              <span class="pm-fav-icon"><i class="${f.icon}" aria-hidden="true"></i></span>
-              <span class="pm-fav-label">${f.label}</span>
-              <span class="pm-fav-value">${f.value}</span>
-          </div>
+      const detailsHTML = (data.details || []).map(d => `
+          <li class="pm-detail">
+              <span class="pm-detail-label">${d.label}</span>
+              <span class="pm-detail-value">${d.value}</span>
+          </li>
       `).join('');
 
       popupContent.innerHTML = `
           <div class="passion-modal">
-              <header class="pm-hero">
-                  <div class="pm-hero-motif pm-hero-motif--${passion}" aria-hidden="true">${passionMotif(passion)}</div>
-                  <span class="pm-hero-icon"><i class="${data.icon}" aria-hidden="true"></i></span>
-                  <div class="pm-hero-text">
-                      <h2 class="pm-title" id="passionPopupTitle">${data.title}</h2>
-                      <p class="pm-subtitle">${data.subtitle}</p>
-                  </div>
-              </header>
+              <span class="pm-icon" aria-hidden="true"><i class="${data.icon}"></i></span>
+              <h2 class="pm-title" id="passionPopupTitle">${data.title}</h2>
+              <p class="pm-subtitle">${data.subtitle}</p>
               <p class="pm-intro">${data.mainContent}</p>
-              <div class="pm-stats">${statsHTML}</div>
-              <section class="pm-section">
-                  <h3 class="pm-section-title"><i class="fas fa-heart" aria-hidden="true"></i> Mes favoris</h3>
-                  <div class="pm-favorites">${favoritesHTML}</div>
-              </section>
-              <blockquote class="pm-quote">${data.quote}</blockquote>
+              ${detailsHTML ? `<ul class="pm-details">${detailsHTML}</ul>` : ''}
           </div>
       `;
 
@@ -714,9 +667,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Données pour les projets
 const projectsData = {
+  copro: {
+      title: "Copro",
+      subtitle: "Application web et mobile · Projet universitaire (équipe de 8)",
+      icon: "fas fa-building",
+      images: [],
+      description: `Développée à huit dans le cadre d'un projet universitaire, l'application Copro permet à des copropriétaires d'auto-gérer leur copropriété, sans passer par un syndic.
+
+Elle réunit une messagerie entre copropriétaires, la gestion des documents administratifs et un emploi du temps regroupant tous les évènements importants (assemblées, interventions, etc.).
+
+Le projet comporte une partie web et une partie mobile. J'ai travaillé au sein de l'équipe sur la conception et le développement, en m'appuyant sur l'écosystème .NET et une base de données PostgreSQL.`,
+      technologies: [
+          { name: "ASP.NET", icon: "fas fa-globe" },
+          { name: "Blazor", icon: "fas fa-code" },
+          { name: "C#", icon: "fas fa-hashtag" },
+          { name: "Entity Framework", icon: "fas fa-diagram-project" },
+          { name: "PostgreSQL", icon: "fas fa-database" },
+          { name: "Kotlin", icon: "fas fa-mobile-screen" }
+      ],
+      skills: [
+          { name: "Travail en équipe (8)", icon: "fas fa-users" },
+          { name: "Développement web & mobile", icon: "fas fa-layer-group" },
+          { name: "Gestion de projet", icon: "fas fa-diagram-project" }
+      ]
+  },
   memory: {
     title: "Memory",
-    subtitle: "Jeu de mémoire — Application de bureau .NET MAUI",
+    subtitle: "Jeu de mémoire, application de bureau .NET MAUI (équipe de 3)",
     icon: "fas fa-brain",
     downloads: [
         { name: "macOS", icon: "fab fa-apple", href: "https://github.com/alexandre-tc/portfolio/releases/download/memory-v1.0/Memory-macOS.zip" },
@@ -730,7 +707,7 @@ const projectsData = {
 
 L'application propose un mode joueur contre joueur, un mode contre une IA, un classement des meilleurs scores ainsi qu'une page de règles. Plusieurs niveaux de difficulté et thèmes de cartes sont disponibles.
 
-Développée en C# avec .NET MAUI, elle est multiplateforme : une version macOS et une version Windows sont proposées au téléchargement. Projet réalisé en équipe avec Sasha Lorenc et Cristiano Franco-Tith.`,
+Développée à trois en C# avec .NET MAUI, elle est multiplateforme : une version macOS et une version Windows sont proposées au téléchargement.`,
     technologies: [
         { name: "C#", icon: "fas fa-hashtag" },
         { name: ".NET MAUI", icon: "fas fa-layer-group" },
@@ -742,30 +719,6 @@ Développée en C# avec .NET MAUI, elle est multiplateforme : une version macOS 
         { name: "Conception UML", icon: "fas fa-project-diagram" },
         { name: "Travail en équipe", icon: "fas fa-users" }
     ]
-},
-  gestionStocks: {
-      title: "Application en C - Gestion de stocks",
-      subtitle: "Application en C - Gestion de données",
-      icon: "fas fa-warehouse",
-      githubLink: "https://github.com/alexandre-tc/saeAlgo",
-      images: [
-          { src: "images/projets/menu.png", alt: "Menu", caption: "Notre menu." },
-          { src: "images/projets/etatStock.png", alt: "Interface", caption: "L'évaluation des stocks" }
-      ],
-      description: `Cette application charge les données de plusieurs fichiers dans des tableaux statiques.
-      Elle permet de modifier des données, d'en ajouter des nouvelles ou même d'en supprimer.
-      Il est possible d'afficher l'état du stock, et même de faire des commandes de plusieurs produits.`,
-      technologies: [
-          { name: "C", icon: "fas fa-terminal" },
-          { name: "Makefile", icon: "fas fa-cogs" },
-          { name: "Doxyfile", icon: "fas fa-file-code" },
-          { name: "Structures de données", icon: "fas fa-database" },
-      ],
-      skills: [
-          { name: "Programmation C", icon: "fas fa-terminal" },
-          { name: "Gestion de fichiers", icon: "fas fa-folder-open" },
-          { name: "Documentation", icon: "fas fa-book" },
-      ]
   }
 };
 
@@ -798,33 +751,26 @@ document.addEventListener('DOMContentLoaded', function() {
   function openProjectPopup(project) {
       const data = projectsData[project];
       
+      // Galerie d'images (uniquement si le projet en possède)
+      const galleryHTML = (data.images && data.images.length)
+          ? '<div class="project-popup-gallery">' + data.images.map(image => `
+              <div class="project-popup-image-container">
+                  <img src="${image.src}" alt="${image.alt}" class="project-popup-image" loading="lazy" decoding="async">
+                  <div class="project-popup-caption">${image.caption}</div>
+              </div>`).join('') + '</div>'
+          : '';
+
       // Construire le contenu du pop-up
       let contentHTML = `
           <div class="project-popup-header">
               <h2 class="project-popup-title">${data.title}</h2>
               <p class="project-popup-subtitle">${data.subtitle}</p>
           </div>
-          
-          <div class="project-popup-gallery">
-      `;
-      
-      // Ajouter les images
-      data.images.forEach(image => {
-          contentHTML += `
-              <div class="project-popup-image-container">
-                  <img src="${image.src}" alt="${image.alt}" class="project-popup-image" loading="lazy" decoding="async">
-                  <div class="project-popup-caption">${image.caption}</div>
-              </div>
-          `;
-      });
-      
-      contentHTML += `
-          </div>
-          
+          ${galleryHTML}
           <div class="project-popup-description">
               ${data.description.split('\n\n').map(para => `<p>${para}</p>`).join('')}
           </div>
-          
+
           <div class="project-popup-technologies">
               <h3 class="project-popup-tech-title">
                   <i class="fas fa-tools" aria-hidden="true"></i>
@@ -956,386 +902,6 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   });
 });
-// ===========================================================
-// Terminal interactif — pop-up dans la page.
-// Chaque commande révèle une info sur Alexandre (pensé pour les recruteurs).
-// Lancé via le bouton « Ouvrir le terminal » de la pop-up projet,
-// ou en tapant openTerminal() dans la console du navigateur.
-// ===========================================================
-(function terminalInfo() {
-  // Coordonnées & infos centralisées (faciles à mettre à jour)
-  const infos = {
-    nom: 'Alexandre Triniol--Crozatier',
-    email: 'alexandre.triniol--crozatier@etu.uca.fr',
-    tel: '+33 6 71 54 59 41',
-    telHref: 'tel:+33671545941',
-    localisation: 'Clermont-Ferrand, France',
-    linkedin: 'https://www.linkedin.com/in/alexandre-triniol-crozatier-250a09355/',
-    github: 'https://github.com/alexandre-tc',
-    cv: 'doc/CV_Alexandre_Triniol-Crozatier_2026.pdf'
-  };
-
-  // Une ligne d'affichage : { text, cls, href? }
-  const line = (text, cls, href) => ({ text, cls: cls || '', href });
-
-  // Liste des commandes pour help + détection des inconnues
-  const commandes = [
-    ['whoami', 'qui je suis en une phrase'],
-    ['formation', 'mon parcours d\'études'],
-    ['competences', 'mes langages & technologies'],
-    ['projets', 'mes projets réalisés'],
-    ['alternance', 'ce que je recherche (rythme, périodes, domaine)'],
-    ['langues', 'les langues que je parle'],
-    ['mobilite', 'permis, véhicule, zone géographique'],
-    ['passions', 'ce que j\'aime en dehors du code'],
-    ['email', 'mon adresse mail'],
-    ['tel', 'mon numéro de téléphone'],
-    ['linkedin', 'mon profil LinkedIn'],
-    ['github', 'mon GitHub'],
-    ['cv', 'télécharger mon CV (PDF)'],
-    ['contact', 'toutes mes coordonnées d\'un coup'],
-    ['clear', 'nettoie l\'écran'],
-    ['exit', 'ferme le terminal']
-  ];
-
-  // Moteur de commandes : renvoie { lines, clear?, close? }
-  function processCommand(raw) {
-    const trimmed = String(raw).trim();
-    if (!trimmed) return { lines: [] };
-    const parts = trimmed.split(/\s+/);
-    const cmd = parts[0].toLowerCase();
-
-    switch (cmd) {
-      case 'help':
-      case 'aide':
-      case 'ls':
-      case '?':
-        return { lines: [
-          line('Tape le nom d\'une commande pour découvrir une info sur moi :', 'title'),
-          ...commandes.map(([name, desc]) =>
-            line('  ' + name.padEnd(14) + desc)),
-          line('Astuce : ↑ / ↓ pour revoir tes commandes précédentes.', 'muted')
-        ] };
-
-      case 'whoami':
-      case 'about':
-      case 'moi':
-        return { lines: [
-          line(infos.nom, 'title'),
-          line('Étudiant en BUT Informatique à Clermont-Ferrand, en recherche d\'une alternance.'),
-          line('Polyvalent et curieux : autant à l\'aise en dev logiciel qu\'en web ou en bases de données.', 'accent'),
-          line('🎵 musique  •  ⚽ football  •  et beaucoup de code entre les deux.', 'muted')
-        ] };
-
-      case 'formation':
-      case 'etudes':
-      case 'studies':
-        return { lines: [
-          line('Formation', 'title'),
-          line('BUT Informatique — 1ère année'),
-          line('IUT de Clermont-Ferrand (Université Clermont Auvergne)'),
-          line('Objectif : poursuivre le cursus en alternance.', 'hint')
-        ] };
-
-      case 'competences':
-      case 'skills':
-      case 'stack':
-        return { lines: [
-          line('Compétences techniques', 'title'),
-          line('  Programmation     : C, C++, Python, Bash'),
-          line('  Développement web : HTML, CSS, PHP'),
-          line('  Dév. applicatif   : C#, .NET MAUI, XAML'),
-          line('  Bases de données  : SQL, PL/pgSQL, PostgreSQL'),
-          line('  Administration    : Linux, Réseau'),
-          line('  Outils            : Git, SSH, x2go')
-        ] };
-
-      case 'projets':
-      case 'projects':
-        return { lines: [
-          line('Projets', 'title'),
-          line('  Memory            jeu de mémoire — C#, .NET MAUI, XAML'),
-          line('  Gestion de stocks appli en C — fichiers, Makefile, Doxygen'),
-          line('Détails et téléchargements dans la section « Projets » du site.', 'hint')
-        ] };
-
-      case 'alternance':
-      case 'recherche':
-        return { lines: [
-          line('Alternance recherchée', 'title'),
-          line('Statut  : en recherche active d\'une alternance'),
-          line('Domaine : ouvert et polyvalent (dev logiciel, web, bases de données…)'),
-          line('Périodes en entreprise : mi-novembre → mi-janvier, puis avril → mi-juin'),
-          line('(les dates exactes suivent le calendrier du BUT)', 'muted'),
-          line('Un profil qui vous intéresse ? → tape  contact', 'accent')
-        ] };
-
-      case 'langues':
-      case 'languages':
-        return { lines: [
-          line('Langues', 'title'),
-          line('  Français : langue maternelle'),
-          line('  Anglais  : courant (B2/C1), à l\'aise à l\'écrit comme à l\'oral')
-        ] };
-
-      case 'mobilite':
-      case 'mobilité':
-      case 'permis':
-        return { lines: [
-          line('Mobilité', 'title'),
-          line('Permis B + véhicule personnel'),
-          line('Mobile — prêt à élargir ma zone de recherche autour de Clermont-Ferrand.', 'hint')
-        ] };
-
-      case 'passions':
-      case 'hobbies':
-        return { lines: [
-          line('Passions', 'title'),
-          line('🎵 Musique — écoute, composition et production sur logiciels de MAO'),
-          line('⚽ Football — sport d\'équipe, esprit collectif et partage')
-        ] };
-
-      case 'email':
-      case 'mail':
-        return { lines: [
-          line('Email', 'title'),
-          line(infos.email, 'hint', 'mailto:' + infos.email)
-        ] };
-
-      case 'tel':
-      case 'telephone':
-      case 'téléphone':
-      case 'phone':
-        return { lines: [
-          line('Téléphone', 'title'),
-          line(infos.tel, 'hint', infos.telHref)
-        ] };
-
-      case 'localisation':
-      case 'location':
-      case 'ou':
-      case 'où':
-      case 'where':
-        return { lines: [
-          line('Localisation', 'title'),
-          line(infos.localisation)
-        ] };
-
-      case 'linkedin':
-        return { lines: [
-          line('LinkedIn', 'title'),
-          line('linkedin.com/in/alexandre-triniol-crozatier', 'hint', infos.linkedin)
-        ] };
-
-      case 'github':
-        return { lines: [
-          line('GitHub', 'title'),
-          line('github.com/alexandre-tc', 'hint', infos.github)
-        ] };
-
-      case 'cv':
-        return { lines: [
-          line('CV', 'title'),
-          line('Télécharger mon CV (PDF)', 'hint', infos.cv)
-        ] };
-
-      case 'contact':
-        return { lines: [
-          line('Mes coordonnées', 'title'),
-          line('Email     : ' + infos.email, 'hint', 'mailto:' + infos.email),
-          line('Téléphone : ' + infos.tel, 'hint', infos.telHref),
-          line('Ville     : ' + infos.localisation),
-          line('LinkedIn  : linkedin.com/in/alexandre-triniol-crozatier', 'hint', infos.linkedin),
-          line('GitHub    : github.com/alexandre-tc', 'hint', infos.github),
-          line('N\'hésitez pas à me contacter — je réponds vite 🙂', 'accent')
-        ] };
-
-      case 'sudo':
-        return { lines: [line('Nice try 😏. Pas besoin des droits root, tout est déjà public ici. Tape  help', 'err')] };
-
-      case 'clear':
-      case 'cls':
-        return { clear: true, lines: [] };
-
-      case 'exit':
-      case 'quit':
-        return { close: true, lines: [line('À bientôt 👋', 'hint')] };
-
-      default:
-        return { lines: [line(cmd + ' : commande inconnue — tape  help  pour la liste', 'err')] };
-    }
-  }
-
-  // --- Interface du terminal ---
-  const overlay = document.getElementById('terminalPopupOverlay');
-  const win = document.getElementById('terminalWindow');
-  const output = document.getElementById('terminalOutput');
-  const form = document.getElementById('terminalForm');
-  const input = document.getElementById('terminalInput');
-  const closeBtn = document.getElementById('terminalCloseBtn');
-  const screen = document.getElementById('terminalScreen');
-
-  let lastFocused = null;
-  const history = [];
-  let histIndex = -1;
-
-  function append(lines) {
-    (lines || []).forEach(l => {
-      const div = document.createElement('div');
-      div.className = 'term-line' + (l.cls ? ' term-' + l.cls : '');
-      if (l.href) {
-        const a = document.createElement('a');
-        a.href = l.href;
-        a.className = 'term-link';
-        a.textContent = l.text;
-        if (/^https?:/i.test(l.href)) { a.target = '_blank'; a.rel = 'noopener'; }
-        else if (/\.pdf($|\?)/i.test(l.href)) { a.setAttribute('download', ''); }
-        div.appendChild(a);
-      } else {
-        div.textContent = l.text;
-      }
-      output.appendChild(div);
-    });
-    if (screen) screen.scrollTop = screen.scrollHeight;
-  }
-
-  function echoCommand(value) {
-    const div = document.createElement('div');
-    div.className = 'term-line term-cmd';
-    const prompt = document.createElement('span');
-    prompt.className = 'term-cmd-prompt';
-    prompt.textContent = 'visiteur@portfolio:~$ ';
-    div.appendChild(prompt);
-    div.appendChild(document.createTextNode(value));
-    output.appendChild(div);
-  }
-
-  function openTerminal() {
-    if (!overlay) return;
-    if (!output.childElementCount) {
-      append([
-        line('Bienvenue dans mon terminal.', 'title'),
-        line('Ici, chaque commande révèle une info sur moi.'),
-        line('tape  help  pour voir tout ce que tu peux demander.', 'hint')
-      ]);
-    }
-    lastFocused = document.activeElement;
-    overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-    setTimeout(() => input && input.focus(), 60);
-  }
-
-  function anyOtherOverlayOpen() {
-    return ['projectPopupOverlay', 'passionPopupOverlay', 'skillPopupOverlay']
-      .some(id => document.getElementById(id)?.classList.contains('active'));
-  }
-
-  function closeTerminal() {
-    if (!overlay) return;
-    overlay.classList.remove('active');
-    document.body.style.overflow = anyOtherOverlayOpen() ? 'hidden' : 'auto';
-    if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
-  }
-
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const value = input.value;
-      if (value.trim()) { history.push(value); histIndex = history.length; }
-      echoCommand(value);
-      input.value = '';
-      const res = processCommand(value);
-      if (res.clear) output.innerHTML = '';
-      append(res.lines);
-      if (res.close) setTimeout(closeTerminal, 400);
-    });
-  }
-
-  if (input) {
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowUp') {
-        if (histIndex > 0) { histIndex--; input.value = history[histIndex]; e.preventDefault(); }
-      } else if (e.key === 'ArrowDown') {
-        if (histIndex < history.length - 1) { histIndex++; input.value = history[histIndex]; }
-        else { histIndex = history.length; input.value = ''; }
-        e.preventDefault();
-      }
-    });
-  }
-
-  if (closeBtn) closeBtn.addEventListener('click', closeTerminal);
-  if (screen) screen.addEventListener('click', () => input && input.focus());
-  if (overlay) overlay.addEventListener('click', (e) => { if (e.target === overlay) closeTerminal(); });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && overlay && overlay.classList.contains('active')) closeTerminal();
-  });
-
-  // Bouton de lancement dans la section « À propos »
-  const aboutTerminalBtn = document.getElementById('aboutTerminalBtn');
-  if (aboutTerminalBtn) aboutTerminalBtn.addEventListener('click', openTerminal);
-
-  // Exposer pour le bouton de la section « À propos » et pour la console
-  window.openTerminal = openTerminal;
-  window.jeu = openTerminal; // alias conservé (compatibilité)
-
-  // Clin d'œil discret dans la console du navigateur
-  console.log('%cUn terminal interactif se cache dans la section « À propos », ou tape %copenTerminal()%c ici, puis  help  pour explorer mon profil.',
-    'color:#5856D6;font-size:13px;', 'color:#FF9500;font-family:monospace;font-weight:bold;', 'color:#5856D6;font-size:13px;');
-})();
-
-// ===========================================================
-// Hero dynamique : machine à écrire + parallaxe pilotée par la souris
-// ===========================================================
-(function heroDynamics() {
-  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // 1) Effet « machine à écrire » sur les technos
-  const typed = document.getElementById('heroTyped');
-  if (typed) {
-    const words = ['C#', '.NET MAUI', 'Python', 'C / C++', 'PHP', 'SQL'];
-    if (reduce) {
-      typed.textContent = words.join(' · ');
-    } else {
-      let w = 0, c = 0, deleting = false;
-      const tick = () => {
-        const word = words[w];
-        c += deleting ? -1 : 1;
-        typed.textContent = word.slice(0, c);
-        let delay = deleting ? 45 : 95;
-        if (!deleting && c === word.length) { deleting = true; delay = 1500; }
-        else if (deleting && c === 0) { deleting = false; w = (w + 1) % words.length; delay = 350; }
-        setTimeout(tick, delay);
-      };
-      setTimeout(tick, 1700);
-    }
-  }
-
-  // 2) Parallaxe douce (souris) : halo + décalage du fond
-  const hero = document.getElementById('accueil');
-  const finePointer = !window.matchMedia || window.matchMedia('(pointer: fine)').matches;
-  if (hero && !reduce && finePointer) {
-    let raf = 0;
-    hero.addEventListener('mousemove', (e) => {
-      const r = hero.getBoundingClientRect();
-      const mx = (e.clientX - r.left) / r.width;
-      const my = (e.clientY - r.top) / r.height;
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        hero.style.setProperty('--mx', (mx * 100).toFixed(1) + '%');
-        hero.style.setProperty('--my', (my * 100).toFixed(1) + '%');
-        hero.style.setProperty('--px', (mx * 2 - 1).toFixed(3));
-        hero.style.setProperty('--py', (my * 2 - 1).toFixed(3));
-        raf = 0;
-      });
-    });
-    hero.addEventListener('mouseleave', () => {
-      hero.style.setProperty('--mx', '50%');
-      hero.style.setProperty('--my', '40%');
-      hero.style.setProperty('--px', '0');
-      hero.style.setProperty('--py', '0');
-    });
-  }
-})();
 
 // ===========================================================
 // Guide d'installation de Memory (pop-up ?, tutos Windows + macOS)
@@ -1443,7 +1009,7 @@ function closeInstallGuide() {
   const overlay = document.getElementById('installPopupOverlay');
   if (!overlay) return;
   overlay.classList.remove('active');
-  const stillOpen = ['projectPopupOverlay', 'passionPopupOverlay', 'skillPopupOverlay', 'terminalPopupOverlay']
+  const stillOpen = ['projectPopupOverlay', 'passionPopupOverlay', 'skillPopupOverlay']
     .some(id => document.getElementById(id)?.classList.contains('active'));
   document.body.style.overflow = stillOpen ? 'hidden' : 'auto';
   if (lastFocusedInstall && typeof lastFocusedInstall.focus === 'function') lastFocusedInstall.focus();
