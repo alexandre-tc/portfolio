@@ -5,9 +5,8 @@
     --text-light: #718096;
 }
 
-/* Section Passions */
+/* Section Passions - le fond est géré par l'alternance dans index.css */
 .passions {
-    background: var(--bg-secondary);
     padding: 5rem 0;
 }
 

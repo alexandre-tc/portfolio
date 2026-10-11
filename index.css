@@ -201,6 +201,32 @@ header::before {
     opacity: 1;
 }
 
+/* Alternance de fonds : une section sur deux en blanc, pour le rythme vertical */
+.about,
+.experience,
+.soft-skills,
+.passions,
+.contact {
+    background: #fff;
+}
+
+.hero,
+.timeline-section,
+.skills,
+.projects,
+.cv-download {
+    background: var(--bg-primary);
+}
+
+/* Sur fond blanc, les cartes passent en gris clair pour rester lisibles */
+.experience .experience-card,
+.soft-skills .soft-card,
+.passions .passion-card,
+.contact .contact-item,
+.contact .contact-form {
+    background: var(--bg-primary);
+}
+
 /* Sections */
 section {
     padding: 6rem 0 7rem;
@@ -651,11 +677,6 @@ section {
     font-size: 0.95rem;
     margin: 0;
     max-width: 60ch;
-}
-
-/* Le parcours et l'expérience se suivent : on évite le double blanc */
-.experience {
-    padding-top: 0;
 }
 
 .experience-card {
