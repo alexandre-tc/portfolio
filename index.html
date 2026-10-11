@@ -29,9 +29,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap">
-    <link rel="stylesheet" href="index.css?v=20260926-4">
-    <link rel="stylesheet" href="passions.css?v=20260926-4">
-    <link rel="stylesheet" href="projets.css?v=20260926-4">
+    <link rel="stylesheet" href="index.css?v=20261011-4">
+    <link rel="stylesheet" href="passions.css?v=20261011-4">
+    <link rel="stylesheet" href="projets.css?v=20261011-4">
     <!-- EmailJS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
@@ -52,7 +52,9 @@
                 <ul class="nav-menu" id="navMenu">
                     <li><a href="#accueil">Accueil</a></li>
                     <li><a href="#apropos">À propos</a></li>
+                    <li><a href="#parcours">Parcours</a></li>
                     <li><a href="#competences">Compétences</a></li>
+                    <li><a href="#softskills">Soft skills</a></li>
                     <li><a href="#projets">Projets</a></li>
                     <li><a href="#passions">Passions</a></li>
                     <li><a href="#cv">CV</a></li>
@@ -114,10 +116,60 @@
                         <span class="photo-glow" aria-hidden="true"></span>
                         <span class="photo-dots" aria-hidden="true"></span>
                         <div class="photo-card">
-                            <img src="images/photo-face.jpg" alt="Portrait d'Alexandre Triniol--Crozatier"
-                                class="profile-img" loading="lazy" decoding="async" width="500" height="500">
+                            <img src="images/photo-face-2026.jpg" alt="Portrait d'Alexandre Triniol--Crozatier"
+                                class="profile-img" loading="lazy" decoding="async" width="800" height="1000">
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="parcours" class="timeline-section">
+        <div class="container">
+            <h2 class="section-title">Mon parcours</h2>
+            <ol class="timeline">
+                <li class="timeline-item">
+                    <span class="timeline-dot" aria-hidden="true"></span>
+                    <span class="timeline-date">2024 - 2028</span>
+                    <h3 class="timeline-title">BUT Informatique</h3>
+                    <p class="timeline-place">IUT de Clermont-Ferrand</p>
+                    <p class="timeline-desc">
+                        Développement web et applicatif, bases de données, gestion de projet. Formation rythmée
+                        par des projets menés en équipe, dont Copro et Memory.
+                    </p>
+                </li>
+                <li class="timeline-item">
+                    <span class="timeline-dot" aria-hidden="true"></span>
+                    <span class="timeline-date">2024</span>
+                    <h3 class="timeline-title">Baccalauréat général</h3>
+                    <p class="timeline-place">Spécialités NSI et mathématiques</p>
+                    <p class="timeline-desc">
+                        Première approche de la programmation et de l'algorithmique, récompensée par le prix
+                        spécial du jury aux Trophées NSI 2024.
+                    </p>
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <section id="experience" class="experience">
+        <div class="container">
+            <h2 class="section-title">Expérience professionnelle</h2>
+            <div class="experience-card glass-effect">
+                <div class="experience-icon" aria-hidden="true">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div class="experience-body">
+                    <div class="experience-head">
+                        <h3 class="experience-title">Employé commercial</h3>
+                        <span class="experience-date">Juillet - août 2025 et 2026</span>
+                    </div>
+                    <p class="experience-place">E.Leclerc Le Brézet, Clermont-Ferrand - secteur liquide</p>
+                    <p class="experience-desc">
+                        Mise en rayon, réception et rangement des marchandises. Deux saisons qui m'ont appris
+                        le rythme du travail en équipe et la rigueur au quotidien.
+                    </p>
                 </div>
             </div>
         </div>
@@ -128,6 +180,54 @@
             <h2 class="section-title">Mes compétences</h2>
             <div class="skills-container" id="skillsContainer">
                 <!-- Les cartes de compétences sont injectées par JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <section id="softskills" class="soft-skills">
+        <div class="container">
+            <h2 class="section-title">Soft skills</h2>
+            <div class="soft-grid">
+                <div class="soft-card glass-effect">
+                    <div class="soft-icon" aria-hidden="true"><i class="fas fa-users"></i></div>
+                    <h3 class="soft-title">Travail en équipe</h3>
+                    <p class="soft-desc">
+                        Copro a été développé à huit, Memory à trois : répartition des tâches, revues de code
+                        et décisions prises ensemble.
+                    </p>
+                </div>
+                <div class="soft-card glass-effect">
+                    <div class="soft-icon" aria-hidden="true"><i class="fas fa-compass"></i></div>
+                    <h3 class="soft-title">Autonomie</h3>
+                    <p class="soft-desc">
+                        J'apprends volontiers seul, que ce soit un framework pour un projet ou la composition
+                        musicale, en autodidacte.
+                    </p>
+                </div>
+                <div class="soft-card glass-effect">
+                    <div class="soft-icon" aria-hidden="true"><i class="fas fa-list-check"></i></div>
+                    <h3 class="soft-title">Organisation</h3>
+                    <p class="soft-desc">
+                        Mener plusieurs projets universitaires en parallèle m'a appris à découper le travail
+                        et à tenir les échéances.
+                    </p>
+                </div>
+                <div class="soft-card glass-effect">
+                    <div class="soft-icon" aria-hidden="true"><i class="fas fa-comments"></i></div>
+                    <h3 class="soft-title">Communication</h3>
+                    <p class="soft-desc">
+                        Expliquer un choix technique à son équipe ou renseigner un client en magasin demande
+                        la même chose : écouter, puis être clair.
+                    </p>
+                </div>
+                <div class="soft-card glass-effect">
+                    <div class="soft-icon" aria-hidden="true"><i class="fas fa-lightbulb"></i></div>
+                    <h3 class="soft-title">Créativité</h3>
+                    <p class="soft-desc">
+                        Concevoir une interface ou composer un morceau part du même réflexe : essayer,
+                        écouter le résultat, recommencer.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
@@ -433,7 +533,7 @@
         </div>
     </div>
 
-    <script src="index.js?v=20260926-4"></script>
+    <script src="index.js?v=20261011-4"></script>
 </body>
 
 </html>

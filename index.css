@@ -595,6 +595,167 @@ section {
     box-shadow: var(--card-shadow-hover);
 }
 
+/* ===========================================================
+   Parcours (frise verticale) + Expérience professionnelle
+   =========================================================== */
+.timeline {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 760px;
+}
+
+.timeline-item {
+    position: relative;
+    padding: 0 0 2.25rem 1.75rem;
+    border-left: 2px solid var(--border-color);
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -5px;
+    top: 0.45rem;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-color);
+}
+
+.timeline-date {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent-color);
+}
+
+.timeline-title {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0.35rem 0 0.15rem;
+}
+
+.timeline-place {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    margin: 0 0 0.5rem;
+}
+
+.timeline-desc {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin: 0;
+    max-width: 60ch;
+}
+
+/* Le parcours et l'expérience se suivent : on évite le double blanc */
+.experience {
+    padding-top: 0;
+}
+
+.experience-card {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    padding: 1.75rem;
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.experience-icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: var(--accent-color);
+    background: var(--bg-secondary);
+}
+
+.experience-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.experience-title {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.experience-date {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent-color);
+}
+
+.experience-place {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    margin: 0.25rem 0 0.5rem;
+}
+
+.experience-desc {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* ===========================================================
+   Soft skills
+   =========================================================== */
+.soft-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.25rem;
+}
+
+.soft-card {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.soft-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: var(--accent-color);
+    background: var(--bg-secondary);
+}
+
+.soft-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.soft-desc {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
 /* Skills Section - cartes sobres et cliquables */
 .skills-container {
     display: flex;
